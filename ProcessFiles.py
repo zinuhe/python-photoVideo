@@ -1,5 +1,5 @@
-#Python3 test.py
-#To process photo and video files under only only one folder
+#Python3 ProcessFiles.py
+#To process photo and video files under only one folder
 import os, shutil, glob
 import exifread #pip install exifread
 import os.path, time, calendar
@@ -34,9 +34,9 @@ def getNameFiles(p_extensionFiles):
     for ext in p_extensionFiles:
         filesNames.extend(glob.glob(ext))
     
-    print("Files Names: %s " % filesNames)
+    #print("Files Names: %s " % filesNames)
     filesNames.sort()
-    print("Files Names sort: %s " % filesNames)
+    #print("Files Names sort: %s " % filesNames)
     return filesNames
 
 
