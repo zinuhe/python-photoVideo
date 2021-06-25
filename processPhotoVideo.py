@@ -1,5 +1,5 @@
 # Python3 processPhotoVideo.py
-# To process photo and video files under only one folder
+# To process photo and video files under same folder
 # By example files from iPhone
 
 import os, shutil, glob
