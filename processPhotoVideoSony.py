@@ -29,6 +29,10 @@ for folder in folders:
     files = os.listdir(currentPath + "/" + folder)
     files.sort()
 
+    # To store smallest date from files inside folder
+    #smallestDate = datetime.strptime('31/12/2050 23:00:00', '%d/%m/%y %H:%M:%S')
+    smallestDate = datetime(2050, 12, 31)
+
     for i, file in enumerate(files, start=1):
         
         # Open image file for reading (binary mode)
@@ -42,31 +46,39 @@ for folder in folders:
             dateTimeDigitized = tags['EXIF DateTimeDigitized']
             print("dateTimeDigitized: " + str(dateTimeDigitized))
 
-            ##ESTOY AQUI @@@@@@@@@@@@@@@@@@@
-
+            
             datetime_obj = datetime.strptime(str(dateTimeDigitized), '%Y:%m:%d %H:%M:%S').date()
             # 2021-02-03 09:42:07
             print(datetime_obj)
 
-            print(datetime_obj.year)
-            print(datetime_obj.month)
-            print(datetime_obj.day)
+            #print(datetime_obj.year)
+            #print(datetime_obj.month)
+            #print(datetime_obj.day)
 
-            # smallestDate 
+            # smallestDate, store and compare
+            # convert string to date
+            #date_time_obj = datetime. strptime('31/12/2050 23:00:00', '%d/%m/%y %H:%M:%S')
+            print ("Type datetime_obj:")
+            print (type(datetime_obj))
+            print ("Type smallestDate:")
+            print (type(smallestDate))
+
+            if datetime_obj < smallestDate
+                smallestDate = datetime_obj
 
             # get year
-            strYear = str(dateTimeDigitized)[0:4]
+            strYear = str(dateTimeDigitized)[0:4] #From EXIF info
 
             # get month
-            strNumberMonth = str(dateTimeDigitized)[5:7]
+            strNumberMonth = str(dateTimeDigitized)[5:7] #From EXIF info
             strNameMonth = calendar.month_abbr[int(strNumberMonth)]
 
             # get day
-            strDay = str(dateTimeDigitized)[8:10]
+            strDay = str(dateTimeDigitized)[8:10] #From EXIF info
 
-            sys.exit()
+            #sys.exit()
 
-        sys.exit()
+        #sys.exit()
 
 
         # YYYY-MM-DD_event_001.ext
@@ -89,6 +101,8 @@ for folder in folders:
             # print("newFileName: " + folder + "/" + newFileName)
 
 
+    print("smallestDate: " + str(smallestDate))
+
     if newFolderName != '':
         if newFolderName != folder:
             try:
@@ -105,8 +119,8 @@ for folder in folders:
 
 # El problema es que la fecha de creacion del folder no es confiable, 
 # funciona la primera vez pero despues no 
-# porque trae es la fecha de modificacion no la de creacion.
+# porque trae la fecha de modificacion no la de creacion.
 
-# Lo que toca hacer es, entrar en la carpeta recorrer todos los files y sacar la menor fecha de EXIF, luego modificar el nombre 
-# del folder con esa fecha y continuar
+# TODO: entrar en cada folder recorrer todos los files y sacar la menor fecha de EXIF, 
+# luego modificar el nombre del folder con esa fecha y continuar
 
