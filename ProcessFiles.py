@@ -1,5 +1,6 @@
-#Python3 ProcessFiles.py
-#To process photo and video files under only one folder
+# Python3 ProcessFiles.py
+# To process photo and video files under only one folder
+
 import os, shutil, glob
 import exifread #pip install exifread
 import os.path, time, calendar
@@ -10,7 +11,7 @@ from subprocess import check_output, check_call
 PHOTO_TYPES = ('*.jpg', '*.JPG', '*.JPE', '*.jpe', '*.JPEG', '*.jpeg', '*.png', '*.PNG')
 VIDEO_TYPES = ('*.mov', '*.MOV', '*.mp4', '*.MP4')
 
-#Creates a new folder and return a boolean
+# Creates a new folder and return a boolean
 def createFolder(pathNewFolder):
     isCreatedOrExists = False
     if os.path.isdir(pathNewFolder) == False:
@@ -28,7 +29,7 @@ def createFolder(pathNewFolder):
     return isCreatedOrExists
 
 
-#Gets extention files and return an array of matching files
+# Gets extention files and return an array of matching files
 def getNameFiles(p_extensionFiles):
     filesNames = []
     for ext in p_extensionFiles:
@@ -40,7 +41,7 @@ def getNameFiles(p_extensionFiles):
     return filesNames
 
 
-#Iterates throught files and moves them
+# Iterates throught files and moves them
 def processMediaFiles(mediaFiles, mediaPath):
     index = 1
 

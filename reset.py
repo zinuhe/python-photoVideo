@@ -1,5 +1,6 @@
-#Copy files from _testFiles to root and delete /photo and /video
-#Python3 reset.py
+# Copy files from _testFiles to root and delete /photo and /video
+# Python3 reset.py
+
 import os, shutil, glob
 import exifread #pip install exifread
 import os.path, time
