@@ -6,7 +6,7 @@ import exifread #pip install exifread
 import os.path, time, calendar
 
 from subprocess import check_output, check_call
-#from datetime import datetime
+# from datetime import datetime
 
 PHOTO_TYPES = ('*.jpg', '*.JPG', '*.JPE', '*.jpe', '*.JPEG', '*.jpeg', '*.png', '*.PNG')
 VIDEO_TYPES = ('*.mov', '*.MOV', '*.mp4', '*.MP4')
@@ -20,10 +20,10 @@ def createFolder(pathNewFolder):
         except OSError:
             print ("Creation of the directory %s failed" % pathNewFolder)
         else:
-            #print ("Successfully created the directory %s " % pathNewFolder)
+            # print ("Successfully created the directory %s " % pathNewFolder)
             isCreatedOrExists = True
     else:
-        #print ("Folder %s already exists " % pathNewFolder)
+        # print ("Folder %s already exists " % pathNewFolder)
         isCreatedOrExists = True
     
     return isCreatedOrExists
@@ -35,9 +35,9 @@ def getNameFiles(p_extensionFiles):
     for ext in p_extensionFiles:
         filesNames.extend(glob.glob(ext))
     
-    #print("Files Names: %s " % filesNames)
+    # print("Files Names: %s " % filesNames)
     filesNames.sort()
-    #print("Files Names sort: %s " % filesNames)
+    # print("Files Names sort: %s " % filesNames)
     return filesNames
 
 
@@ -45,7 +45,7 @@ def getNameFiles(p_extensionFiles):
 def processMediaFiles(mediaFiles, mediaPath):
     index = 1
 
-    #for file in mediaFiles:
+    # for file in mediaFiles:
     for i, file in enumerate(mediaFiles, start=1):
         #print("file: ", file)
 
@@ -58,26 +58,26 @@ def processMediaFiles(mediaFiles, mediaPath):
         if bool(tags):
             dateTimeDigitized = tags['EXIF DateTimeDigitized']
 
-            #validDateTimeDigitized = str(dateTimeDigitized)[0:10].replace(':', '-')
+            # validDateTimeDigitized = str(dateTimeDigitized)[0:10].replace(':', '-')
 
-            #Convertir validDateTimeDigitized en formato fecha y usar linea 69 para sacar todo en una linea?
+            # Convertir validDateTimeDigitized en formato fecha y usar linea 69 para sacar todo en una linea?
 
-            #get year
+            # get year
             strYear = str(dateTimeDigitized)[0:4]
 
-            #Creates subfolder with the year if it does't already exists
+            # Creates subfolder with the year if it does't already exists
             createFolder(mediaPath + "/" + strYear)
             check_call(['Setfile', '-d', "01/01/" + strYear + " 01:00", mediaPath + "/" + strYear])
 
-            #get month
+            # get month
             strNumberMonth = str(dateTimeDigitized)[5:7]
             strNameMonth = calendar.month_abbr[int(strNumberMonth)]
 
-            #get day
+            # get day
             strDay = str(dateTimeDigitized)[8:10]
 
             if i == 1 :
-                #Keep date to restart index
+                # Keep date to restart index
                 keepDate = strYear + strNumberMonth + strDay
             elif keepDate == (strYear + strNumberMonth + strDay):
                 index += 1
@@ -86,26 +86,26 @@ def processMediaFiles(mediaFiles, mediaPath):
                 keepDate = strYear + strNumberMonth + strDay
 
             validDateTimeDigitized = "event_" + strNameMonth + "-" + strDay
-            #PROBAR ESTO validDateTimeDigitized = time.strftime('event_%b-%d', time.localtime(os.path.getmtime(currentPath + folder)))
+            # PROBAR ESTO validDateTimeDigitized = time.strftime('event_%b-%d', time.localtime(os.path.getmtime(currentPath + folder)))
             print(validDateTimeDigitized)
 
             if validDateTimeDigitized != '':
                 if createFolder(mediaPath + "/" + strYear + "/" + validDateTimeDigitized):
-                    #Set the propper date to the new folder just created
+                    # Set the propper date to the new folder just created
                     tmpCreationDate =  strNumberMonth + "/" + strDay + "/" + strYear + " 01:00" #"12/20/2020 16:13"
                     check_call(['Setfile', '-d', tmpCreationDate, mediaPath + "/" + strYear + "/" + validDateTimeDigitized])
 
-                    #Rename files to format 2021-01-31_event_001.ext
-                    #newFileName = time.strftime('%Y-%m-%d_event_', time.localtime(os.path.getmtime(currentPath + folder))) + f'{i:03}'
+                    # Rename files to format 2021-01-31_event_001.ext
+                    # newFileName = time.strftime('%Y-%m-%d_event_', time.localtime(os.path.getmtime(currentPath + folder))) + f'{i:03}'
                     newFileName = strYear + "-" + strNumberMonth + "-" + strDay + "_event_" + f'{index:03}' #To add secuency
                     os.rename(file, newFileName)
                     print("newFileName: %s" % newFileName)
 
-                    #Move the file to the new folder
-                    #shutil.move(file, mediaPath + "/" + strYear + "/" + validDateTimeDigitized) #WORKING
+                    # Move the file to the new folder
+                    # shutil.move(file, mediaPath + "/" + strYear + "/" + validDateTimeDigitized) #WORKING
                     shutil.move(newFileName, mediaPath + "/" + strYear + "/" + validDateTimeDigitized)
 
-                    #print("file: %s" % file)
+                    # print("file: %s" % file)
             else:
                 print("DATE %s NOT VALID" % validDateTimeDigitized)
         else:
@@ -113,44 +113,44 @@ def processMediaFiles(mediaFiles, mediaPath):
 
             try:
                 # Create folder with creation/modification date from the file
-                #modificationTime = time.strftime('%Y-%m-%d', time.localtime(os.path.getmtime(currentPath + file)))
-                #creationTime = time.strftime('%Y-%m-%d', time.localtime(os.path.getctime(currentPath + file)))
+                # modificationTime = time.strftime('%Y-%m-%d', time.localtime(os.path.getmtime(currentPath + file)))
+                # creationTime = time.strftime('%Y-%m-%d', time.localtime(os.path.getctime(currentPath + file)))
 
-                #get year
+                # get year
                 strYear = time.strftime('%Y', time.localtime(os.path.getmtime(currentPath + file)))
 
-                #Creates subfolder with the year if it does't already exists
+                # Creates subfolder with the year if it does't already exists
                 createFolder(mediaPath + "/" + strYear)
                 check_call(['Setfile', '-d', "01/01/" + strYear + " 01:00", mediaPath + "/" + strYear])
 
-                #get month
+                # get month
                 strNumberMonth = time.strftime('%m', time.localtime(os.path.getmtime(currentPath + file)))
                 strNameMonth = calendar.month_abbr[int(strNumberMonth)]
 
-                #get day
+                # get day
                 strDay = time.strftime('%d', time.localtime(os.path.getmtime(currentPath + file)))
 
                 validDateTimeDigitized = "event_" + strNameMonth + "-" + strDay
 
                 if validDateTimeDigitized != '':
                     if createFolder(mediaPath + "/" + strYear + "/" + validDateTimeDigitized):
-                        #Set the proper date to the new folder just created
+                        # Set the proper date to the new folder just created
                         tmpCreationDate =  strNumberMonth + "/" + strDay + "/" + strYear + " 01:00" #"12/20/2020 16:13"
                         check_call(['Setfile', '-d', tmpCreationDate, mediaPath + "/" + strYear + "/" + validDateTimeDigitized])
 
-                        #Move the file to the new folder
+                        # Move the file to the new folder
                         shutil.move(file, mediaPath + "/" + strYear + "/" + validDateTimeDigitized)
                 else:
                     print("DATE %s NOT VALID" % validDateTimeDigitized)
 
-                #print("Created: %s" % creationTime)
-                #time.ctime(modification_time)
+                # print("Created: %s" % creationTime)
+                # time.ctime(modification_time)
             except OSError:
                 print("Path '%s' does not exists or is inaccessible" %currentPath)
                 sys.exit
 
             # Move to (Photo/Video) root folder
-            #shutil.move(file, mediaPath) #Igual mueve el archivo al folder del tipo de media
+            # shutil.move(file, mediaPath) #Igual mueve el archivo al folder del tipo de media
     return
 
 # detect the current working directory
@@ -161,7 +161,7 @@ photoPath = currentPath + "photo"
 videoPath = currentPath + "video"
 
 # define the access rights
-#access_rights = 0o755
+# access_rights = 0o755
 
 createFolder(photoPath)
 createFolder(videoPath)
@@ -170,10 +170,10 @@ photoFiles = getNameFiles(PHOTO_TYPES) #return an array with photo files
 videoFiles = getNameFiles(VIDEO_TYPES) #return an array with video files
 
 
-#Process photo files
+# Process photo files
 processMediaFiles(photoFiles, photoPath)
 
-#Process video files
+# Process video files
 processMediaFiles(videoFiles, videoPath)
 
 

@@ -12,10 +12,10 @@ import sys
 # Current working directory
 currentPath = os.getcwd() + "/"
 
-#Only Folders
+# Only Folders
 folders = next(os.walk(currentPath))[1] # for the current dir use ('.')
 folders.sort()
-#print(folders)
+# print(folders)
 
 for folder in folders:
     newFolderName = time.strftime('event_%b-%d', time.localtime(os.path.getctime(currentPath + folder)))
@@ -36,13 +36,13 @@ for folder in folders:
                     print("Rename folder operation fails for: " + folder + "/" + file + " --> " + folder + "/" + newFileName)
                     sys.exit()
 
-        #Get files inside folder and sort them out
+        # Get files inside folder and sort them out
         files = os.listdir(currentPath + "/" + newFolderName)
         files.sort()
 
         for i, file in enumerate(files, start=1):
-            #YYYY-MM-DD_event_001.ext
-            #newFileName = time.strftime('%Y-%m-%d_event_', time.localtime(os.path.getmtime(currentPath + folder))) + f'{i:03}'
+            # YYYY-MM-DD_event_001.ext
+            # newFileName = time.strftime('%Y-%m-%d_event_', time.localtime(os.path.getmtime(currentPath + folder))) + f'{i:03}'
             newFileName = time.strftime('%Y-%m-%d_event_', time.localtime(os.path.getmtime(currentPath + folder + "/" + file))) + f'{i:03}'
             
             fileExtension = os.path.splitext(file)[1]
@@ -50,15 +50,15 @@ for folder in folders:
             newFileName = newFileName + fileExtension
 
             if file != newFileName:
-                #Rename files
+                # Rename files
                 try:
                     os.rename(folder + "/" + file, folder + "/" + newFileName)
                 except OSError:
                     print("Rename file operation fails for: " + folder + "/" + file + " --> " + folder + "/" + newFileName)
                     sys.exit()
                 
-                #print("file: " + folder + "/" + file)
-                #print("newFileName: " + folder + "/" + newFileName)
+                # print("file: " + folder + "/" + file)
+                # print("newFileName: " + folder + "/" + newFileName)
     else:
         print("DATE %s NOT VALID" % newFolderName)
 
