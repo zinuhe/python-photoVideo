@@ -2,6 +2,9 @@
 # To process photo and video files under same folder
 # By example files from iPhone
 
+# TODO
+# -Si no hay fotos o videos, no crear el folder
+
 import os, shutil, glob
 import exifread #pip install exifread
 import os.path, time, calendar
