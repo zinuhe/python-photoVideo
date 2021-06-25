@@ -1,6 +1,6 @@
 # Python3 processPhotoVideoSony.py
 # To process folders and files (photos) from Sony camera, 
-# it will set the folder and file names according to created date
+# it will set the folder and file names according to 'created date'
 # ASSUMING dates on folders and files are correct
 
 import os, shutil, glob

@@ -3,7 +3,7 @@
 # By example files from iPhone
 
 # TODO
-# -Si no hay fotos o videos, no crear el folder
+# -Si no hay fotos o videos, no crear ese folder
 
 import os, shutil, glob
 import exifread #pip install exifread
