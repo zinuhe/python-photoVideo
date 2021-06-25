@@ -22,7 +22,7 @@ for folder in folders:
     # newFolderName = time.strftime('event_%b-%d', time.localtime(os.path.getctime(currentPath + folder)))
     print("folder: " + folder)
     # print("newFolderName: " + newFolderName)
-    
+
     # sys.exit()
 
     # Get files inside folder and sort them out
@@ -69,11 +69,10 @@ for folder in folders:
         sys.exit()
 
 
-
         # YYYY-MM-DD_event_001.ext
         # newFileName = time.strftime('%Y-%m-%d_event_', time.localtime(os.path.getmtime(currentPath + folder))) + f'{i:03}'
         newFileName = time.strftime('%Y-%m-%d_event_', time.localtime(os.path.getmtime(currentPath + folder + "/" + file))) + f'{i:03}'
-        
+
         fileExtension = os.path.splitext(file)[1]
 
         newFileName = newFileName + fileExtension
@@ -85,10 +84,9 @@ for folder in folders:
             except OSError:
                 print("Rename file operation fails for: " + folder + "/" + file + " --> " + folder + "/" + newFileName)
                 sys.exit()
-            
+
             # print("file: " + folder + "/" + file)
             # print("newFileName: " + folder + "/" + newFileName)
-
 
 
     if newFolderName != '':
@@ -101,15 +99,14 @@ for folder in folders:
             except OSError:
                 print("Rename folder operation fails for: " + folder + "/" + file + " --> " + folder + "/" + newFileName)
                 sys.exit()
-
     else:
         print("DATE %s NOT VALID" % newFolderName)
 
 
-# El problema es que la fecha de creacion del folder no es confiable, funciona la primera vez pero despues no 
+# El problema es que la fecha de creacion del folder no es confiable, 
+# funciona la primera vez pero despues no 
 # porque trae es la fecha de modificacion no la de creacion.
 
 # Lo que toca hacer es, entrar en la carpeta recorrer todos los files y sacar la menor fecha de EXIF, luego modificar el nombre 
 # del folder con esa fecha y continuar
-
 
