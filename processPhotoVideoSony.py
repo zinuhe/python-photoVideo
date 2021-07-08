@@ -30,8 +30,8 @@ for folder in folders:
     files.sort()
 
     # To store smallest date from files inside folder
-    #smallestDate = datetime.strptime('31/12/2050 23:00:00', '%d/%m/%y %H:%M:%S')
-    smallestDate = datetime(2050, 12, 31)
+    #smallestDatetime = datetime.strptime('31/12/2050 23:00:00', '%d/%m/%y %H:%M:%S')
+    smallestDatetime = datetime(2050, 12, 31)
 
     for i, file in enumerate(files, start=1):
         
@@ -56,14 +56,14 @@ for folder in folders:
             #print(datetime_obj.month)
             #print(datetime_obj.day)
 
-            # smallestDate, store and compare
-            print(f"Type dateTimeDigitized: {type(dateTimeDigitized)}") #
-            print(f"Type datetime_obj: {type(datetime_obj)}") #ESTE ES TIPO datetime.date
-            print (f"Type smallestDate: {type(smallestDate)}") #ESTE ES TIPO datetime.datetime
-            print ("\n")
+            # smallestDatetime, store and compare
+            # print(f"Type dateTimeDigitized: {type(dateTimeDigitized)}")
+            # print(f"Type datetime_obj: {type(datetime_obj)}")
+            # print (f"Type smallestDatetime: {type(smallestDatetime)}")
+            # print ("\n")
 
-            if datetime_obj < smallestDate
-                smallestDate = datetime_obj
+            if datetime_obj < smallestDatetime:
+                smallestDatetime = datetime_obj
 
             # get year
             strYear = str(dateTimeDigitized)[0:4] #From EXIF info
@@ -96,11 +96,11 @@ for folder in folders:
                 print("Rename file operation fails for: " + folder + "/" + file + " --> " + folder + "/" + newFileName)
                 sys.exit()
 
-            # print("file: " + folder + "/" + file)
+            printf(f"file: {folder}/{file}")
             # print("newFileName: " + folder + "/" + newFileName)
 
 
-    print("smallestDate: " + str(smallestDate))
+    print(f"smallestDatetime: {smallestDate}")
 
     if newFolderName != '':
         if newFolderName != folder:
@@ -120,6 +120,6 @@ for folder in folders:
 # funciona la primera vez pero despues no 
 # porque trae la fecha de modificacion no la de creacion.
 
-# TODO: entrar en cada folder recorrer todos los files y sacar la menor fecha de EXIF, 
+# TODO: entrar en cada folder recorrer todos los files y sacar la menor fecha de EXIF, DONE line 65
 # luego modificar el nombre del folder con esa fecha y continuar
 
