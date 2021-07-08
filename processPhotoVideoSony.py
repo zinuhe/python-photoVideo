@@ -47,21 +47,20 @@ for folder in folders:
             print("dateTimeDigitized: " + str(dateTimeDigitized))
 
             
-            datetime_obj = datetime.strptime(str(dateTimeDigitized), '%Y:%m:%d %H:%M:%S').date()
+            # convert string to date
+            datetime_obj = datetime.strptime(str(dateTimeDigitized), '%Y:%m:%d %H:%M:%S')
             # 2021-02-03 09:42:07
-            print(datetime_obj)
+            print(f"datetime_obj: {datetime_obj}")
 
             #print(datetime_obj.year)
             #print(datetime_obj.month)
             #print(datetime_obj.day)
 
             # smallestDate, store and compare
-            # convert string to date
-            #date_time_obj = datetime. strptime('31/12/2050 23:00:00', '%d/%m/%y %H:%M:%S')
-            print ("Type datetime_obj:")
-            print (type(datetime_obj))
-            print ("Type smallestDate:")
-            print (type(smallestDate))
+            print(f"Type dateTimeDigitized: {type(dateTimeDigitized)}") #
+            print(f"Type datetime_obj: {type(datetime_obj)}") #ESTE ES TIPO datetime.date
+            print (f"Type smallestDate: {type(smallestDate)}") #ESTE ES TIPO datetime.datetime
+            print ("\n")
 
             if datetime_obj < smallestDate
                 smallestDate = datetime_obj
