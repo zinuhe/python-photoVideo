@@ -4,6 +4,7 @@
 
 # TODO
 # -Si no hay fotos o videos, no crear ese folder
+# -Cambiar los print() por print(f"xxx{xxx}")
 
 import os, shutil, glob
 import exifread #pip install exifread
