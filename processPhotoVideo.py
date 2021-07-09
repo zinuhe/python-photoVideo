@@ -5,6 +5,7 @@
 # TODO
 # -Si no hay fotos o videos, no crear ese folder
 # -Cambiar los print() por print(f"xxx{xxx}")
+# -Linea 71 eso se puede cambiar en processPhotoVideoSony hay mejores ejemplos
 
 import os, shutil, glob
 import exifread #pip install exifread
@@ -70,7 +71,7 @@ def processMediaFiles(mediaFiles, mediaPath):
             # get year
             strYear = str(dateTimeDigitized)[0:4]
 
-            # Creates subfolder with the year if it does't already exists
+            # Creates subfolder with the year if it doesn't already exists
             createFolder(mediaPath + "/" + strYear)
             check_call(['Setfile', '-d', "01/01/" + strYear + " 01:00", mediaPath + "/" + strYear])
 
