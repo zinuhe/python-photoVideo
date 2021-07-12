@@ -4,7 +4,10 @@
 # ASSUMING dates on folders and files are correct
 
 # TODO
-# -linea 60 de donde saca esa fecha? Porque no usa la fecha de EXIF
+# -linea 60 de donde saca esa fecha? Porque no usa la fecha de EXIF (parece que ya quedo, probar mas)
+# -linea 59 si son mas de 999 falla, por el i:03 leer primero cuantos files hay en el folder
+# en base a eso cambiar esa parte
+# -a la segunda vez, si algun archivo fue removido no funciona bien, pierde el conteo
 
 import os, shutil, glob, sys
 import exifread #pip3 install exifread
@@ -43,45 +46,36 @@ for folder in folders:
 
             # convert to datetime - 2021-07-09 09:42:07
             dateTimeFromExif = datetime.strptime(str(dateFromExif), '%Y:%m:%d %H:%M:%S')
-            # print(f"dateTimeFromExif: {dateTimeFromExif}")
-
             #print(f"{dateTimeFromExif.year}-{dateTimeFromExif.month}-{dateTimeFromExif.day}"")
 
             # smallestDatetime, store and compare
             # print(f"Type dateFromExif: {type(dateFromExif)}")
             # print(f"Type dateTimeFromExif: {type(dateTimeFromExif)}")
-
             if dateTimeFromExif < smallestDatetime:
                 smallestDatetime = dateTimeFromExif
 
-
             # YYYY-MM-DD_event_001.ext
             ## newFileName = time.strftime('%Y-%m-%d_event_', time.localtime(os.path.getmtime(currentPath + folder))) + f'{i:03}'
-            newFileName = time.strftime('%Y-%m-%d_event_', time.localtime(os.path.getmtime(currentPath + folder + "/" + file))) + f'{i:03}'
-            
-            tmp = time.localtime(os.path.getmtime(currentPath + folder + "/" + file))
-            print(f"time.localtime(os.path.getmtime(currentPath + folder + / + file)): {tmp}")
-            #newFileName = time.strftime('%Y-%m-%d_event_', dateFromExif) + f'{i:03}'
+            newFileName = dateTimeFromExif.strftime('%Y-%m-%d') + "_event_" + f'{i:03}'
             #print(f"newFileName: {newFileName}")
 
             fileExtension = os.path.splitext(file)[1]
             #print(f"fileExtension: {fileExtension}")
 
             newFileName = newFileName + fileExtension
-            # print(f"newFileName: {newFileName}")
-
+            #print(f"newFileName: {newFileName}")
 
             if file != newFileName:
                 # Renaming files
                 try:
-                    # os.rename(folder + "/" + file, folder + "/" + newFileName)
-                    print(f"Renaming file: {folder}/{file} --> {folder}/{newFileName}")
+                    os.rename(folder + "/" + file, folder + "/" + newFileName)
+                    #print(f"Renaming file: {folder}/{file} --> {folder}/{newFileName}")
                 except OSError:
                     print(f"Renaming file operation failed: {folder}/{file} --> {folder}/{newFileName}")
                     sys.exit()
 
 
-    print(f"smallestDatetime: {smallestDatetime}")
+    #print(f"smallestDatetime: {smallestDatetime}")
 
     newFolderName = smallestDatetime.strftime("event_%b-%d") #get month name from datetime object
     # print(f"newFolderName: {newFolderName}")
@@ -90,8 +84,8 @@ for folder in folders:
         if newFolderName != folder:
             try:
                 # Rename folder
-                print(f"Renaming folder: {folder} --> {newFolderName}")
-                #os.rename(folder, newFolderName)
+                #print(f"Renaming folder: {folder} --> {newFolderName}")
+                os.rename(folder, newFolderName)
             except OSError:
                 print(f"Renaming folder operation failed: {folder}/{file} --> {folder}/{newFileName}")
                 sys.exit()
@@ -99,5 +93,5 @@ for folder in folders:
         print(f"ERROR - Getting new folder name for {folder} fails - probably date is not valid")
 
 
-    print("\n\n")
+    #print("\n\n")
 
