@@ -5,9 +5,9 @@
 
 # TODO
 # -linea 60 de donde saca esa fecha? Porque no usa la fecha de EXIF (parece que ya quedo, probar mas)
-# -linea 59 si son mas de 999 falla, por el i:03 leer primero cuantos files hay en el folder
-# en base a eso cambiar esa parte
+# -DONE--linea 59 si son mas de 999 falla, por el i:03 leer primero cuantos files hay en el folder
 # -a la segunda vez, si algun archivo fue removido no funciona bien, pierde el conteo
+# -preguntar por parametro si usar _event_ o algo diferente
 
 import os, shutil, glob, sys
 import exifread #pip3 install exifread
@@ -27,6 +27,10 @@ for folder in folders:
     # Get files inside folder and sort them out
     files = os.listdir(currentPath + "/" + folder)
     files.sort()
+
+    # Get number of files and set secuence
+    _secuence = "03"
+    if len(files) > 999: _secuence = "04"
 
     # Stores smallest date from files inside folder
     # to rename the folder with that date
@@ -56,7 +60,7 @@ for folder in folders:
 
             # YYYY-MM-DD_event_001.ext
             ## newFileName = time.strftime('%Y-%m-%d_event_', time.localtime(os.path.getmtime(currentPath + folder))) + f'{i:03}'
-            newFileName = dateTimeFromExif.strftime('%Y-%m-%d') + "_event_" + f'{i:03}'
+            newFileName = dateTimeFromExif.strftime('%Y-%m-%d') + "_event_" + f"{i:{_secuence}}"
             #print(f"newFileName: {newFileName}")
 
             fileExtension = os.path.splitext(file)[1]
