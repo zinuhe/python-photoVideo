@@ -7,7 +7,7 @@
 # -linea 60 de donde saca esa fecha? Porque no usa la fecha de EXIF (parece que ya quedo, probar mas)
 # -DONE--linea 59 si son mas de 999 falla, por el i:03 leer primero cuantos files hay en el folder
 # -DONE--esta leyendo todos los archivos solo deberia leer photo files, add PHOTO_TYPES
-# -a la segunda vez, si algun archivo fue removido no funciona bien, pierde el conteo
+# -DONE---a la segunda vez, si algun archivo fue removido no funciona bien, pierde el conteo
 # -preguntar por parametro si usar "_event_" o algo diferente
 
 import os, shutil, glob, sys
@@ -40,7 +40,9 @@ for folder in folders:
     # to rename the folder with that date
     smallestDatetime = datetime(2100, 12, 31)
 
-    for i, file in enumerate(files, start=1):
+    # for i, file in enumerate(files, start=1):
+    i = 1
+    for file in files:
         # get file extension
         fileExtension = os.path.splitext(file)[1]
         # print(f"fileExtension: {fileExtension}")
@@ -84,8 +86,9 @@ for folder in folders:
                     except OSError:
                         print(f"Renaming file operation failed: {folder}/{file} --> {folder}/{newFileName}")
                         sys.exit()
+                i += 1
             else:
-                print(f"No EXIF data for: '{folder}/{file}' file was not rename")
+                print(f"No EXIF data for: '{folder}/{file}' file was not renamed")
         else:
             print(f"Not a photo file '{folder}/{file}'")
 
