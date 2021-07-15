@@ -58,10 +58,10 @@ for folder in folders:
                 dateFromExif = tags['EXIF DateTimeDigitized']
                 # print(f"dateFromExif: {dateFromExif}")
 
-                # It needs to be converted to datetime - 2021-07-09 09:42:07
+                # It needs to be converted to datetime - 2021-07-15 09:42:07
                 dateTimeFromExif = datetime.strptime(str(dateFromExif), '%Y:%m:%d %H:%M:%S')
                 # print(f"dateTimeFromExif: {dateTimeFromExif}")
-                #print(f"{dateTimeFromExif.year}-{dateTimeFromExif.month}-{dateTimeFromExif.day}"")
+                # print(f"{dateTimeFromExif.year}-{dateTimeFromExif.month}-{dateTimeFromExif.day}"")
 
                 # smallestDatetime, store and compare
                 # print(f"Type dateFromExif: {type(dateFromExif)}")
