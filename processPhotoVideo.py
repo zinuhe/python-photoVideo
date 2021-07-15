@@ -98,15 +98,15 @@ def processMediaFiles(mediaFiles, mediaPath):
                 index = 1
                 keepDate = strYear + strNumberMonth + strDay
 
-            validDateTimeDigitized = "event_" + strNameMonth + "-" + strDay
+            dateTimeFromExif = "event_" + strNameMonth + "-" + strDay
 
-            print(f"validDateTimeDigitized: {validDateTimeDigitized}")
+            print(f"dateTimeFromExif: {dateTimeFromExif}")
 
-            if validDateTimeDigitized != '':
-                if createFolder(mediaPath + "/" + strYear + "/" + validDateTimeDigitized):
+            if dateTimeFromExif != '':
+                if createFolder(mediaPath + "/" + strYear + "/" + dateTimeFromExif):
                     # Set the propper date to the new folder just created
                     tmpCreationDate =  strNumberMonth + "/" + strDay + "/" + strYear + " 01:00" #"12/20/2020 16:13"
-                    check_call(['Setfile', '-d', tmpCreationDate, mediaPath + "/" + strYear + "/" + validDateTimeDigitized])
+                    check_call(['Setfile', '-d', tmpCreationDate, mediaPath + "/" + strYear + "/" + dateTimeFromExif])
 
                     # Rename files to format 2021-01-31_event_001.ext
                     # newFileName = time.strftime('%Y-%m-%d_event_', time.localtime(os.path.getmtime(currentPath + folder))) + f'{i:03}'
@@ -115,14 +115,14 @@ def processMediaFiles(mediaFiles, mediaPath):
                     print(f"newFileName: {newFileName}")
 
                     # Move the file to the new folder
-                    # shutil.move(file, mediaPath + "/" + strYear + "/" + validDateTimeDigitized) #WORKING
-                    shutil.move(newFileName, mediaPath + "/" + strYear + "/" + validDateTimeDigitized)
+                    # shutil.move(file, mediaPath + "/" + strYear + "/" + dateTimeFromExif) #WORKING
+                    shutil.move(newFileName, mediaPath + "/" + strYear + "/" + dateTimeFromExif)
 
                     # print(f"file: {file}")
             else:
-                print(f"DATE {validDateTimeDigitized} NOT VALID")
+                print(f"DATE {dateTimeFromExif} NOT VALID")
         else:
-            print(f"Not EXIF Info for {currentPath} / {file}")
+            print(f"Not EXIF Info for {currentPath}/{file}")
 
             try:
                 # Create folder with creation/modification date from the file
@@ -143,18 +143,18 @@ def processMediaFiles(mediaFiles, mediaPath):
                 # get day
                 strDay = time.strftime('%d', time.localtime(os.path.getmtime(currentPath + file)))
 
-                validDateTimeDigitized = "event_" + strNameMonth + "-" + strDay
+                dateTimeFromExif = "event_" + strNameMonth + "-" + strDay
 
-                if validDateTimeDigitized != '':
-                    if createFolder(mediaPath + "/" + strYear + "/" + validDateTimeDigitized):
+                if dateTimeFromExif != '':
+                    if createFolder(mediaPath + "/" + strYear + "/" + dateTimeFromExif):
                         # Set the proper date to the new folder just created
                         tmpCreationDate =  strNumberMonth + "/" + strDay + "/" + strYear + " 01:00" #"12/20/2020 16:13"
-                        check_call(['Setfile', '-d', tmpCreationDate, mediaPath + "/" + strYear + "/" + validDateTimeDigitized])
+                        check_call(['Setfile', '-d', tmpCreationDate, mediaPath + "/" + strYear + "/" + dateTimeFromExif])
 
                         # Move the file to the new folder
-                        shutil.move(file, mediaPath + "/" + strYear + "/" + validDateTimeDigitized)
+                        shutil.move(file, mediaPath + "/" + strYear + "/" + dateTimeFromExif)
                 else:
-                    print(f"DATE {validDateTimeDigitized} NOT VALID")
+                    print(f"DATE {dateTimeFromExif} NOT VALID")
 
                 # print(f"Created: {creationTime}")
                 # time.ctime(modification_time)
