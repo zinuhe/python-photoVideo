@@ -4,10 +4,6 @@
 # ASSUMING dates on folders and files are correct
 
 # TODO
-# -DONE--linea 60 de donde saca esa fecha? Porque no usa la fecha de EXIF (parece que ya quedo, probar mas)
-# -DONE--linea 59 si son mas de 999 falla, por el i:03 leer primero cuantos files hay en el folder
-# -DONE--esta leyendo todos los archivos solo deberia leer photo files, add PHOTO_TYPES
-# -DONE---a la segunda vez, si algun archivo fue removido no funciona bien, pierde el conteo
 # -cambiarle al folder la fecha de creacion?
 # -preguntar por parametro si usar "_event_" o algo diferente
 
