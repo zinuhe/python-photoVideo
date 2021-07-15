@@ -5,6 +5,7 @@
 # TODO
 # -Si no hay fotos o videos, no crear ese folder
 # -Linea 71 eso se puede cambiar en processPhotoVideoSony hay mejores ejemplos
+# -estoy revisando lo de las fechas sacadas de EXIF, se puede organizar mejor como en processPhotoVideoSony
 
 import os, shutil, glob
 import exifread #pip install exifread
