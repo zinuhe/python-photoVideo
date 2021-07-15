@@ -62,25 +62,32 @@ def processMediaFiles(mediaFiles, mediaPath):
         tags = exifread.process_file(f, details=False, stop_tag='EXIF DateTimeDigitized')
 
         if bool(tags):
-            dateTimeDigitized = tags['EXIF DateTimeDigitized']
+            dateFromExif = tags['EXIF DateTimeDigitized']
+            # print(f"dateFromExif: {dateFromExif}")
 
-            # validDateTimeDigitized = str(dateTimeDigitized)[0:10].replace(':', '-')
+            # It needs to be converted to datetime - 2021-07-15 09:42:07
+            dateTimeFromExif = datetime.strptime(str(dateFromExif), '%Y:%m:%d %H:%M:%S')
+            # print(f"dateTimeFromExif: {dateTimeFromExif}")
+            # print(f"{dateTimeFromExif.year}-{dateTimeFromExif.month}-{dateTimeFromExif.day}"")
 
-            # Convertir validDateTimeDigitized en formato fecha y usar linea 69 para sacar todo en una linea?
+            # validDateTimeDigitized = str(dateFromExif)[0:10].replace(':', '-')  ___TO_DELETE
 
             # get year
-            strYear = str(dateTimeDigitized)[0:4]
+            # strYear = str(dateFromExif)[0:4]  ___TO_DELETE
+            strYear = dateTimeFromExif.year
 
             # Creates subfolder with the year if it doesn't already exists
             createFolder(mediaPath + "/" + strYear)
             check_call(['Setfile', '-d', "01/01/" + strYear + " 01:00", mediaPath + "/" + strYear])
 
             # get month
-            strNumberMonth = str(dateTimeDigitized)[5:7]
+            # strNumberMonth = str(dateFromExif)[5:7] ___TO_DELETE
+            strNumberMonth = dateTimeFromExif.month
             strNameMonth = calendar.month_abbr[int(strNumberMonth)]
 
             # get day
-            strDay = str(dateTimeDigitized)[8:10]
+            # strDay = str(dateFromExif)[8:10]  ___TO_DELETE
+            strDay = dateTimeFromExif.day
 
             if i == 1 :
                 # Keep date to restart index
