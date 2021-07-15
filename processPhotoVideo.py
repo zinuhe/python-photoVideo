@@ -25,10 +25,10 @@ def createFolder(pathNewFolder):
         except OSError:
             print(f"Creation of the directory {pathNewFolder} failed")
         else:
-            # print(f"Successfully created the directory {pathNewFolder}")
+            # print(f"Successfully created the folder: {pathNewFolder}")
             isCreatedOrExists = True
     else:
-        # print(f"Folder {pathNewFolder} already exists")
+        # print(f"Folder '{pathNewFolder}' already exists")
         isCreatedOrExists = True
     
     return isCreatedOrExists
@@ -54,7 +54,7 @@ def processMediaFiles(mediaFiles, mediaPath):
     for i, file in enumerate(mediaFiles, start=1):
         #print(f"file: {file}")
 
-        # Open image file for reading (binary mode)
+        # Open media file for reading (binary mode)
         f = open(currentPath + file, 'rb')
 
         # Return Exif tags
@@ -172,8 +172,8 @@ videoPath = currentPath + "video"
 createFolder(photoPath)
 createFolder(videoPath)
 
-photoFiles = getNameFiles(PHOTO_TYPES) #return an array with photo files
-videoFiles = getNameFiles(VIDEO_TYPES) #return an array with video files
+photoFiles = getNameFiles(PHOTO_TYPES) #returns an array with photo files
+videoFiles = getNameFiles(VIDEO_TYPES) #returns an array with video files
 
 
 # Process photo files
@@ -181,5 +181,4 @@ processMediaFiles(photoFiles, photoPath)
 
 # Process video files
 processMediaFiles(videoFiles, videoPath)
-
 
