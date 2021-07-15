@@ -24,12 +24,12 @@ def createFolder(pathNewFolder):
         try:
             os.mkdir(pathNewFolder)
         except OSError:
-            print ("Creation of the directory %s failed" % pathNewFolder)
+            print(f"Creation of the directory {pathNewFolder} failed")
         else:
-            # print ("Successfully created the directory %s " % pathNewFolder)
+            # print(f"Successfully created the directory {pathNewFolder}")
             isCreatedOrExists = True
     else:
-        # print ("Folder %s already exists " % pathNewFolder)
+        # print(f"Folder {pathNewFolder} already exists")
         isCreatedOrExists = True
     
     return isCreatedOrExists
@@ -41,9 +41,9 @@ def getNameFiles(p_extensionFiles):
     for ext in p_extensionFiles:
         filesNames.extend(glob.glob(ext))
     
-    # print("Files Names: %s " % filesNames)
+    # print(f"Files Names: {filesNames}")
     filesNames.sort()
-    # print("Files Names sort: %s " % filesNames)
+    # print(f"Files Names sort: {filesNames}")
     return filesNames
 
 
@@ -53,7 +53,7 @@ def processMediaFiles(mediaFiles, mediaPath):
 
     # for file in mediaFiles:
     for i, file in enumerate(mediaFiles, start=1):
-        #print("file: ", file)
+        #print(f"file: {file}")
 
         # Open image file for reading (binary mode)
         f = open(currentPath + file, 'rb')
@@ -105,17 +105,17 @@ def processMediaFiles(mediaFiles, mediaPath):
                     # newFileName = time.strftime('%Y-%m-%d_event_', time.localtime(os.path.getmtime(currentPath + folder))) + f'{i:03}'
                     newFileName = strYear + "-" + strNumberMonth + "-" + strDay + "_event_" + f'{index:03}' #To add secuency
                     os.rename(file, newFileName)
-                    print("newFileName: %s" % newFileName)
+                    print(f"newFileName: {newFileName}")
 
                     # Move the file to the new folder
                     # shutil.move(file, mediaPath + "/" + strYear + "/" + validDateTimeDigitized) #WORKING
                     shutil.move(newFileName, mediaPath + "/" + strYear + "/" + validDateTimeDigitized)
 
-                    # print("file: %s" % file)
+                    # print(f"file: {file}")
             else:
-                print("DATE %s NOT VALID" % validDateTimeDigitized)
+                print(f"DATE {validDateTimeDigitized} NOT VALID")
         else:
-            print("Not EXIF Info for %s" % currentPath + file)
+            print(f"Not EXIF Info for {currentPath} / {file}")
 
             try:
                 # Create folder with creation/modification date from the file
@@ -147,13 +147,13 @@ def processMediaFiles(mediaFiles, mediaPath):
                         # Move the file to the new folder
                         shutil.move(file, mediaPath + "/" + strYear + "/" + validDateTimeDigitized)
                 else:
-                    print("DATE %s NOT VALID" % validDateTimeDigitized)
+                    print(f"DATE {validDateTimeDigitized} NOT VALID")
 
-                # print("Created: %s" % creationTime)
+                # print(f"Created: {creationTime}")
                 # time.ctime(modification_time)
             except OSError:
-                print("Path '%s' does not exists or is inaccessible" %currentPath)
-                sys.exit
+                print(f"Path {currentPath} does not exists or is inaccessible")
+                sys.exit()
 
             # Move to (Photo/Video) root folder
             # shutil.move(file, mediaPath) #Igual mueve el archivo al folder del tipo de media
