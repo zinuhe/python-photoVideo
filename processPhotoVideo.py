@@ -4,7 +4,6 @@
 
 # TODO
 # -Si no hay fotos o videos, no crear ese folder
-# -Cambiar los print() por print(f"xxx{xxx}")
 # -Linea 71 eso se puede cambiar en processPhotoVideoSony hay mejores ejemplos
 
 import os, shutil, glob
@@ -35,7 +34,7 @@ def createFolder(pathNewFolder):
     return isCreatedOrExists
 
 
-# Gets extention files and return an array of matching files
+# Gets file extensions and return an array of matching files
 def getNameFiles(p_extensionFiles):
     filesNames = []
     for ext in p_extensionFiles:
@@ -92,8 +91,8 @@ def processMediaFiles(mediaFiles, mediaPath):
                 keepDate = strYear + strNumberMonth + strDay
 
             validDateTimeDigitized = "event_" + strNameMonth + "-" + strDay
-            # PROBAR ESTO validDateTimeDigitized = time.strftime('event_%b-%d', time.localtime(os.path.getmtime(currentPath + folder)))
-            print(validDateTimeDigitized)
+
+            print(f"validDateTimeDigitized: {validDateTimeDigitized}")
 
             if validDateTimeDigitized != '':
                 if createFolder(mediaPath + "/" + strYear + "/" + validDateTimeDigitized):
@@ -158,6 +157,7 @@ def processMediaFiles(mediaFiles, mediaPath):
             # Move to (Photo/Video) root folder
             # shutil.move(file, mediaPath) #Igual mueve el archivo al folder del tipo de media
     return
+
 
 # detect the current working directory
 currentPath = os.getcwd() + "/"
