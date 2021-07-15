@@ -19,6 +19,7 @@ from datetime import datetime
  
 # Photo files extensions allowed
 PHOTO_TYPES = ['.DNG', '.JPE', '.JPEG', '.JPG', '.PNG']
+EVENT_NAME = "_event_"
 
 # Current working directory
 currentPath = os.getcwd() + "/"
@@ -73,7 +74,7 @@ for folder in folders:
 
                 # YYYY-MM-DD_event_001.ext
                 ## newFileName = time.strftime('%Y-%m-%d_event_', time.localtime(os.path.getmtime(currentPath + folder))) + f'{i:03}'
-                newFileName = dateTimeFromExif.strftime('%Y-%m-%d') + "_event_" + f"{i:{_secuence}}"
+                newFileName = dateTimeFromExif.strftime('%Y-%m-%d') + EVENT_NAME + f"{i:{_secuence}}"
                 #print(f"newFileName: {newFileName}")
 
                 newFileName = newFileName + fileExtension
