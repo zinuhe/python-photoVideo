@@ -90,7 +90,6 @@ def processMediaFiles(mediaFiles, mediaPath):
             strNameMonth = calendar.month_abbr[int(strNumberMonth)]
 
             # get day
-            # strDay = str(dateFromExif)[8:10]  ___TO_DELETE
             strDay = str(dateTimeFromExif.day)
 
             if i == 1 :
@@ -111,20 +110,14 @@ def processMediaFiles(mediaFiles, mediaPath):
                     # Set the proper date to the new folder just created
                     tmpCreationDate =  strNumberMonth + "/" + strDay + "/" + strYear + " 01:00" #"12/20/2020 16:13"
                     check_call(['Setfile', '-d', tmpCreationDate, mediaPath + "/" + strYear + "/" + dateTimeFromExif])
-
-                    # Rename files to format 2021-01-31_event_001.ext
-                    # newFileName = time.strftime('%Y-%m-%d_event_', time.localtime(os.path.getmtime(currentPath + folder))) + f'{i:03}'
                     
                     fileExtension = os.path.splitext(file)[1]
                     newFileName = strYear + "-" + strNumberMonth + "-" + strDay + "_event_" + f'{index:03}' + fileExtension # {index:03} To add secuency
                     os.rename(file, newFileName)
-                    print(f"file: {file} | newFileName: {newFileName}")
+                    # print(f"file: {file} | newFileName: {newFileName}")
 
                     # Move the file to the new folder
-                    # shutil.move(file, mediaPath + "/" + strYear + "/" + dateTimeFromExif) #WORKING
                     shutil.move(newFileName, mediaPath + "/" + strYear + "/" + dateTimeFromExif)
-
-                    # print(f"file: {file}")
             else:
                 print(f"DATE {dateTimeFromExif} NOT VALID")
         else:
@@ -180,7 +173,6 @@ videoPath = currentPath + "video"
 
 # define the access rights
 # access_rights = 0o755
-
 
 photoFiles = getNameFiles(PHOTO_TYPES) #returns an array with photo files
 videoFiles = getNameFiles(VIDEO_TYPES) #returns an array with video files
