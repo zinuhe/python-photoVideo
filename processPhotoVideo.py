@@ -74,10 +74,7 @@ def processMediaFiles(mediaFiles, mediaPath):
             # print(f"dateTimeFromExif: {dateTimeFromExif}")
             # print(f"{dateTimeFromExif.year}-{dateTimeFromExif.month}-{dateTimeFromExif.day}"")
 
-            # validDateTimeDigitized = str(dateFromExif)[0:10].replace(':', '-')  ___TO_DELETE
-
             # get year
-            # strYear = str(dateFromExif)[0:4]  ___TO_DELETE
             strYear = str(dateTimeFromExif.year)
 
             # Creates subfolder with the year if it doesn't already exists
@@ -85,12 +82,11 @@ def processMediaFiles(mediaFiles, mediaPath):
             check_call(['Setfile', '-d', "01/01/" + strYear + " 01:00", mediaPath + "/" + strYear])
 
             # get month
-            # strNumberMonth = str(dateFromExif)[5:7] ___TO_DELETE
-            strNumberMonth = str(dateTimeFromExif.month)
+            strNumberMonth = dateTimeFromExif.strftime('%m')
             strNameMonth = calendar.month_abbr[int(strNumberMonth)]
 
             # get day
-            strDay = str(dateTimeFromExif.day)
+            strDay = dateTimeFromExif.strftime('%d')
 
             if i == 1 :
                 # Keep date to restart index
@@ -103,7 +99,7 @@ def processMediaFiles(mediaFiles, mediaPath):
 
             dateTimeFromExif = "event_" + strNameMonth + "-" + strDay
 
-            print(f"dateTimeFromExif: {dateTimeFromExif}")
+            #print(f"dateTimeFromExif: {dateTimeFromExif}")
 
             if dateTimeFromExif != '':
                 if createFolder(mediaPath + "/" + strYear + "/" + dateTimeFromExif):
