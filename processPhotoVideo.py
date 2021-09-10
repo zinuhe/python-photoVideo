@@ -5,7 +5,11 @@
 # TODO
 # -Si no hay fotos o videos, no crear ese folder | hice el cambio, testiandolo | Fixed
 # -Linea 71 eso se puede cambiar, en processPhotoVideoSony hay una mejor implementacion | Fixed
+# no esta asignando la extension a los nuevos archivos de fotos | Fixed
+
+# los numeros de meses y dias de un solo digito no tiene el cero adelante
 # -estoy revisando lo de las fechas sacadas de EXIF, se puede organizar mejor como en processPhotoVideoSony
+
 
 import os, shutil, glob
 import exifread #pip install exifread
@@ -104,15 +108,17 @@ def processMediaFiles(mediaFiles, mediaPath):
 
             if dateTimeFromExif != '':
                 if createFolder(mediaPath + "/" + strYear + "/" + dateTimeFromExif):
-                    # Set the propper date to the new folder just created
+                    # Set the proper date to the new folder just created
                     tmpCreationDate =  strNumberMonth + "/" + strDay + "/" + strYear + " 01:00" #"12/20/2020 16:13"
                     check_call(['Setfile', '-d', tmpCreationDate, mediaPath + "/" + strYear + "/" + dateTimeFromExif])
 
                     # Rename files to format 2021-01-31_event_001.ext
                     # newFileName = time.strftime('%Y-%m-%d_event_', time.localtime(os.path.getmtime(currentPath + folder))) + f'{i:03}'
-                    newFileName = strYear + "-" + strNumberMonth + "-" + strDay + "_event_" + f'{index:03}' #To add secuency
+                    
+                    fileExtension = os.path.splitext(file)[1]
+                    newFileName = strYear + "-" + strNumberMonth + "-" + strDay + "_event_" + f'{index:03}' + fileExtension # {index:03} To add secuency
                     os.rename(file, newFileName)
-                    print(f"newFileName: {newFileName}")
+                    print(f"file: {file} | newFileName: {newFileName}")
 
                     # Move the file to the new folder
                     # shutil.move(file, mediaPath + "/" + strYear + "/" + dateTimeFromExif) #WORKING
@@ -159,11 +165,9 @@ def processMediaFiles(mediaFiles, mediaPath):
                 # print(f"Created: {creationTime}")
                 # time.ctime(modification_time)
             except OSError:
-                print(f"Path {currentPath} does not exists or is inaccessible")
+                print(f"Path {currentPath} does not exist or is inaccessible")
                 sys.exit()
 
-            # Move to (Photo/Video) root folder
-            # shutil.move(file, mediaPath) #Igual mueve el archivo al folder del tipo de media
     return
 
 
