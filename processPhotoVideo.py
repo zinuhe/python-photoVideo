@@ -3,8 +3,8 @@
 # By example files from iPhone
 
 # TODO
-# -Si no hay fotos o videos, no crear ese folder
-# -Linea 71 eso se puede cambiar en processPhotoVideoSony hay mejores ejemplos
+# -Si no hay fotos o videos, no crear ese folder | hice el cambio, testiandolo | Fixed
+# -Linea 71 eso se puede cambiar, en processPhotoVideoSony hay una mejor implementacion | Fixed
 # -estoy revisando lo de las fechas sacadas de EXIF, se puede organizar mejor como en processPhotoVideoSony
 
 import os, shutil, glob
@@ -12,7 +12,7 @@ import exifread #pip install exifread
 import os.path, time, calendar
 
 from subprocess import check_output, check_call
-# from datetime import datetime
+from datetime import datetime
 
 PHOTO_TYPES = ('*.jpg', '*.JPG', '*.JPE', '*.jpe', '*.JPEG', '*.jpeg', '*.png', '*.PNG')
 VIDEO_TYPES = ('*.mov', '*.MOV', '*.mp4', '*.MP4')
@@ -74,7 +74,7 @@ def processMediaFiles(mediaFiles, mediaPath):
 
             # get year
             # strYear = str(dateFromExif)[0:4]  ___TO_DELETE
-            strYear = dateTimeFromExif.year
+            strYear = str(dateTimeFromExif.year)
 
             # Creates subfolder with the year if it doesn't already exists
             createFolder(mediaPath + "/" + strYear)
@@ -82,12 +82,12 @@ def processMediaFiles(mediaFiles, mediaPath):
 
             # get month
             # strNumberMonth = str(dateFromExif)[5:7] ___TO_DELETE
-            strNumberMonth = dateTimeFromExif.month
+            strNumberMonth = str(dateTimeFromExif.month)
             strNameMonth = calendar.month_abbr[int(strNumberMonth)]
 
             # get day
             # strDay = str(dateFromExif)[8:10]  ___TO_DELETE
-            strDay = dateTimeFromExif.day
+            strDay = str(dateTimeFromExif.day)
 
             if i == 1 :
                 # Keep date to restart index
@@ -167,26 +167,26 @@ def processMediaFiles(mediaFiles, mediaPath):
     return
 
 
-# detect the current working directory
+# Detects the current working directory
 currentPath = os.getcwd() + "/"
 
-# prefix the name of the directory to be created
+# Prefix the name of the directory to be created
 photoPath = currentPath + "photo"
 videoPath = currentPath + "video"
 
 # define the access rights
 # access_rights = 0o755
 
-createFolder(photoPath)
-createFolder(videoPath)
 
 photoFiles = getNameFiles(PHOTO_TYPES) #returns an array with photo files
 videoFiles = getNameFiles(VIDEO_TYPES) #returns an array with video files
 
+if len(photoFiles) > 0: 
+    createFolder(photoPath)
+    # Process photo files
+    processMediaFiles(photoFiles, photoPath)
 
-# Process photo files
-processMediaFiles(photoFiles, photoPath)
-
-# Process video files
-processMediaFiles(videoFiles, videoPath)
-
+if len(videoFiles) > 0: 
+    createFolder(videoPath)
+    # Process video files
+    processMediaFiles(videoFiles, videoPath)
