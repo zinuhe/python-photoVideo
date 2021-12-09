@@ -3,10 +3,6 @@
 # By example files from iPhone
 
 # TODO
-# -Si no hay fotos o videos, no crear ese folder | hice el cambio, testiandolo | Fixed
-# -Linea 71 eso se puede cambiar, en processPhotoVideoSony hay una mejor implementacion | Fixed
-# no esta asignando la extension a los nuevos archivos de fotos | Fixed
-
 # los numeros de meses y dias de un solo digito no tiene el cero adelante
 # -estoy revisando lo de las fechas sacadas de EXIF, se puede organizar mejor como en processPhotoVideoSony
 
