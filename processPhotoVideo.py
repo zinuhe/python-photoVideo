@@ -18,7 +18,7 @@ import os.path, time, calendar
 from subprocess import check_output, check_call
 from datetime import datetime
 
-PHOTO_TYPES = ('*.jpg', '*.JPG', '*.JPE', '*.jpe', '*.JPEG', '*.jpeg', '*.png', '*.PNG')
+PHOTO_TYPES = ('*.jpg', '*.JPG', '*.JPE', '*.jpe', '*.JPEG', '*.jpeg', '*.png', '*.PNG', '*.dng', '*.DNG')
 VIDEO_TYPES = ('*.mov', '*.MOV', '*.mp4', '*.MP4')
 
 # Creates a new folder and return a boolean
@@ -35,7 +35,7 @@ def createFolder(pathNewFolder):
     else:
         # print(f"Folder '{pathNewFolder}' already exists")
         isCreatedOrExists = True
-    
+
     return isCreatedOrExists
 
 
@@ -44,7 +44,7 @@ def getNameFiles(p_extensionFiles):
     filesNames = []
     for ext in p_extensionFiles:
         filesNames.extend(glob.glob(ext))
-    
+
     # print(f"Files Names: {filesNames}")
     filesNames.sort()
     # print(f"Files Names sort: {filesNames}")
@@ -106,7 +106,7 @@ def processMediaFiles(mediaFiles, mediaPath):
                     # Set the proper date to the new folder just created
                     tmpCreationDate =  strNumberMonth + "/" + strDay + "/" + strYear + " 01:00" #"12/20/2020 16:13"
                     check_call(['Setfile', '-d', tmpCreationDate, mediaPath + "/" + strYear + "/" + dateTimeFromExif])
-                    
+
                     fileExtension = os.path.splitext(file)[1]
                     newFileName = strYear + "-" + strNumberMonth + "-" + strDay + "_event_" + f'{index:03}' + fileExtension # {index:03} To add secuency
                     os.rename(file, newFileName)
@@ -173,12 +173,12 @@ videoPath = currentPath + "video"
 photoFiles = getNameFiles(PHOTO_TYPES) #returns an array with photo files
 videoFiles = getNameFiles(VIDEO_TYPES) #returns an array with video files
 
-if len(photoFiles) > 0: 
+if len(photoFiles) > 0:
     createFolder(photoPath)
     # Process photo files
     processMediaFiles(photoFiles, photoPath)
 
-if len(videoFiles) > 0: 
+if len(videoFiles) > 0:
     createFolder(videoPath)
     # Process video files
     processMediaFiles(videoFiles, videoPath)
