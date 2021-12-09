@@ -5,7 +5,7 @@
 # TODO
 # los numeros de meses y dias de un solo digito no tiene el cero adelante
 # -estoy revisando lo de las fechas sacadas de EXIF, se puede organizar mejor como en processPhotoVideoSony
-
+# in processPhotoVideoSony extensions files are processed different, take a look
 
 import os, shutil, glob
 import exifread #pip install exifread
@@ -14,7 +14,7 @@ import os.path, time, calendar
 from subprocess import check_output, check_call
 from datetime import datetime
 
-PHOTO_TYPES = ('*.jpg', '*.JPG', '*.JPE', '*.jpe', '*.JPEG', '*.jpeg', '*.png', '*.PNG', '*.dng', '*.DNG')
+PHOTO_TYPES = ('*.dng', '*.DNG', '*.jpe', '*.JPE', '*.jpeg', '*.JPEG', '*.jpg', '*.JPG', '*.png', '*.PNG')
 VIDEO_TYPES = ('*.mov', '*.MOV', '*.mp4', '*.MP4')
 
 # Creates a new folder and return a boolean
