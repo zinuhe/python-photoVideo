@@ -112,7 +112,7 @@ def processMediaFiles(mediaFiles, mediaPath):
                     os.rename(file, newFileName)
                     # print(f"file: {file} | newFileName: {newFileName}")
 
-                    # Move the file to the new folder
+                    # Move the file (with new name) to the new folder
                     shutil.move(newFileName, mediaPath + "/" + strYear + "/" + dateTimeFromExif)
             else:
                 print(f"DATE {dateTimeFromExif} NOT VALID")
@@ -147,6 +147,13 @@ def processMediaFiles(mediaFiles, mediaPath):
                         check_call(['Setfile', '-d', tmpCreationDate, mediaPath + "/" + strYear + "/" + dateTimeFromExif])
 
                         # Move the file to the new folder
+                        ## ** change file name as in line 115 **
+
+                        #fileExtension = os.path.splitext(file)[1]
+                        #newFileName = strYear + "-" + strNumberMonth + "-" + strDay + "_event_" + f'{index:03}' + fileExtension # {index:03} To add secuency
+                        #os.rename(file, newFileName)
+                        ## print(f"file: {file} | newFileName: {newFileName}")
+
                         shutil.move(file, mediaPath + "/" + strYear + "/" + dateTimeFromExif)
                 else:
                     print(f"DATE {dateTimeFromExif} NOT VALID")
