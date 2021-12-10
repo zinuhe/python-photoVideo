@@ -3,15 +3,11 @@
 # By example files from iPhone
 
 # TODO
-# -Si no hay fotos o videos, no crear ese folder | hice el cambio, testiandolo | Fixed
-# -Linea 71 eso se puede cambiar, en processPhotoVideoSony hay una mejor implementacion | Fixed
-# no esta asignando la extension a los nuevos archivos de fotos | Fixed
-
 # los numeros de meses y dias de un solo digito no tiene el cero adelante
 # -estoy revisando lo de las fechas sacadas de EXIF, se puede organizar mejor como en processPhotoVideoSony
 
 # No cambia el nombre de los archivos de video, los mueve al folder correcto pero NO los renombra
-# ES porque no tiene la fecha del EXIF, entonces ponerles la fecha del created date 
+# ES porque no tiene la fecha del EXIF, entonces ponerles la fecha del created date
 
 import os, shutil, glob
 import exifread #pip install exifread
@@ -20,7 +16,7 @@ import os.path, time, calendar
 from subprocess import check_output, check_call
 from datetime import datetime
 
-PHOTO_TYPES = ('*.jpg', '*.JPG', '*.JPE', '*.jpe', '*.JPEG', '*.jpeg', '*.png', '*.PNG', '*.dng', '*.DNG')
+PHOTO_TYPES = ('*.dng', '*.DNG', '*.jpe', '*.JPE', '*.jpeg', '*.JPEG', '*.jpg', '*.JPG', '*.png', '*.PNG')
 VIDEO_TYPES = ('*.mov', '*.MOV', '*.mp4', '*.MP4')
 
 # Creates a new folder and return a boolean
@@ -114,7 +110,7 @@ def processMediaFiles(mediaFiles, mediaPath):
                     os.rename(file, newFileName)
                     # print(f"file: {file} | newFileName: {newFileName}")
 
-                    # Move the file to the new folder
+                    # Move the file (with new name) to the new folder
                     shutil.move(newFileName, mediaPath + "/" + strYear + "/" + dateTimeFromExif)
             else:
                 print(f"DATE {dateTimeFromExif} NOT VALID")
@@ -149,6 +145,13 @@ def processMediaFiles(mediaFiles, mediaPath):
                         check_call(['Setfile', '-d', tmpCreationDate, mediaPath + "/" + strYear + "/" + dateTimeFromExif])
 
                         # Move the file to the new folder
+                        ## ** change file name as in line 115 **
+
+                        #fileExtension = os.path.splitext(file)[1]
+                        #newFileName = strYear + "-" + strNumberMonth + "-" + strDay + "_event_" + f'{index:03}' + fileExtension # {index:03} To add secuency
+                        #os.rename(file, newFileName)
+                        ## print(f"file: {file} | newFileName: {newFileName}")
+
                         shutil.move(file, mediaPath + "/" + strYear + "/" + dateTimeFromExif)
                 else:
                     print(f"DATE {dateTimeFromExif} NOT VALID")
