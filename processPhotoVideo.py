@@ -10,6 +10,8 @@
 # los numeros de meses y dias de un solo digito no tiene el cero adelante
 # -estoy revisando lo de las fechas sacadas de EXIF, se puede organizar mejor como en processPhotoVideoSony
 
+# No cambia el nombre de los archivos de video, los mueve al folder correcto pero NO los renombra
+# ES porque no tiene la fecha del EXIF, entonces ponerles la fecha del created date 
 
 import os, shutil, glob
 import exifread #pip install exifread
