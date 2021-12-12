@@ -3,8 +3,6 @@
 # By example files from iPhone
 
 # TODO
-# Checking dates from EXIF, it is better in processPhotoVideoSony
-# With EXIF info and whitout it are similar, refactor it
 
 import os, shutil, glob
 import exifread #pip install exifread
