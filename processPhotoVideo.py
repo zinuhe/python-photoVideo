@@ -5,9 +5,6 @@
 # TODO
 # Checking dates from EXIF, it is better in processPhotoVideoSony
 # With EXIF info and whitout it are similar, refactor it
-# El problema con los videos puede ser por el orden a la hora
-# de renombrar todo, primero ordernar por fecha y luego empezar a
-# renombrar
 
 import os, shutil, glob
 import exifread #pip install exifread
@@ -38,17 +35,15 @@ def createFolder(pathNewFolder):
     return isCreatedOrExists
 
 
-# Gets file extensions and return an array of matching files
+# Gets file extensions and return an array of matching files sorted
 def getNameFiles(p_extensionFiles):
     filesNames = []
     for ext in p_extensionFiles:
         filesNames.extend(glob.glob(ext))
 
-    # print(f"Files Names: {filesNames}")
     filesNames.sort()
     # print(f"Files Names sort: {filesNames}")
     return filesNames
-
 
 # Iterates throught files and moves them
 def processMediaFiles(mediaFiles, mediaPath):
@@ -56,119 +51,68 @@ def processMediaFiles(mediaFiles, mediaPath):
 
     # for file in mediaFiles:
     for i, file in enumerate(mediaFiles, start=1):
-        #print(f"file: {file}")
-
         # Open media file for reading (binary mode)
         f = open(currentPath + file, 'rb')
 
         # Return Exif tags
         tags = exifread.process_file(f, details=False, stop_tag='EXIF DateTimeDigitized')
 
-        if bool(tags):
-            dateFromExif = tags['EXIF DateTimeDigitized']
-            # print(f"dateFromExif: {dateFromExif}")
+        try:
+            if bool(tags):
+                    dateFromExif = tags['EXIF DateTimeDigitized']
+                    # It needs to be converted to datetime - 2021-07-15 09:42:07
+                    dateFrom = datetime.strptime(str(dateFromExif), '%Y:%m:%d %H:%M:%S')
+            else: #Not EXIF Info
+                    # get creation/modification date from the file
+                    # creationTime     = time.strftime('%Y-%m-%d', time.localtime(os.path.getctime(currentPath + file)))
+                    # modificationTime = time.strftime('%Y-%m-%d', time.localtime(os.path.getmtime(currentPath + file)))
+                    dateFromCreationDate = time.strftime('%Y-%m-%d', time.localtime(os.path.getmtime(currentPath + file)))
+                    dateFrom = datetime.strptime(str(dateFromCreationDate), '%Y-%m-%d')
+        except OSError:
+            print(f"Path {currentPath} does not exist or is inaccessible")
+            sys.exit()
 
-            # It needs to be converted to datetime - 2021-07-15 09:42:07
-            dateTimeFromExif = datetime.strptime(str(dateFromExif), '%Y:%m:%d %H:%M:%S')
-            # print(f"dateTimeFromExif: {dateTimeFromExif}")
-            # print(f"{dateTimeFromExif.year}-{dateTimeFromExif.month}-{dateTimeFromExif.day}"")
+        # get year
+        strYear = str(dateFrom.year)
 
-            # get year
-            strYear = str(dateTimeFromExif.year)
+        # Creates subfolder with the year if it does't already exists
+        createFolder(mediaPath + "/" + strYear)
+        check_call(['Setfile', '-d', "01/01/" + strYear + " 01:00", mediaPath + "/" + strYear])
 
-            # Creates subfolder with the year if it doesn't already exists
-            createFolder(mediaPath + "/" + strYear)
-            check_call(['Setfile', '-d', "01/01/" + strYear + " 01:00", mediaPath + "/" + strYear])
+        # get month
+        strNumberMonth = dateFrom.strftime('%m')
+        strNameMonth = calendar.month_abbr[int(strNumberMonth)]
 
-            # get month
-            strNumberMonth = dateTimeFromExif.strftime('%m')
-            strNameMonth = calendar.month_abbr[int(strNumberMonth)]
+        # get day
+        strDay = dateFrom.strftime('%d')
 
-            # get day
-            strDay = dateTimeFromExif.strftime('%d')
 
-            if i == 1 :
-                # Keep date to restart index
-                keepDate = strYear + strNumberMonth + strDay
-            elif keepDate == (strYear + strNumberMonth + strDay):
-                index += 1
-            else:
-                index = 1
-                keepDate = strYear + strNumberMonth + strDay
-
-            dateTimeFromExif = "event_" + strNameMonth + "-" + strDay
-
-            #print(f"dateTimeFromExif: {dateTimeFromExif}")
-
-            if dateTimeFromExif != '':
-                if createFolder(mediaPath + "/" + strYear + "/" + dateTimeFromExif):
-                    # Set the proper date to the new folder just created
-                    tmpCreationDate =  strNumberMonth + "/" + strDay + "/" + strYear + " 01:00" #"12/20/2020 16:13"
-                    check_call(['Setfile', '-d', tmpCreationDate, mediaPath + "/" + strYear + "/" + dateTimeFromExif])
-
-                    fileExtension = os.path.splitext(file)[1]
-                    newFileName = strYear + "-" + strNumberMonth + "-" + strDay + EVENT_NAME + f'{index:03}' + fileExtension # {index:03} To add secuency
-                    os.rename(file, newFileName)
-                    # print(f"file: {file} | newFileName: {newFileName}")
-
-                    # Move the file (with new name) to the new folder
-                    shutil.move(newFileName, mediaPath + "/" + strYear + "/" + dateTimeFromExif)
-            else:
-                print(f"DATE {dateTimeFromExif} NOT VALID")
+        if i == 1 :
+            # Keep date to restart index
+            keepDate = strYear + strNumberMonth + strDay
+        elif keepDate == (strYear + strNumberMonth + strDay):
+            index += 1
         else:
-            print(f"Not EXIF Info for {currentPath}/{file}")
+            index = 1
+            keepDate = strYear + strNumberMonth + strDay
 
-            try:
-                # Create folder with creation/modification date from the file
-                # modificationTime = time.strftime('%Y-%m-%d', time.localtime(os.path.getmtime(currentPath + file)))
-                # creationTime = time.strftime('%Y-%m-%d', time.localtime(os.path.getctime(currentPath + file)))
+        newDate = "event_" + strNameMonth + "-" + strDay
 
-                # get year
-                strYear = time.strftime('%Y', time.localtime(os.path.getmtime(currentPath + file)))
+        if newDate != '':
+            if createFolder(mediaPath + "/" + strYear + "/" + newDate):
+                # Set the proper date to the new folder just created
+                tmpCreationDate =  strNumberMonth + "/" + strDay + "/" + strYear + " 01:00" #"12/20/2020 16:13"
+                check_call(['Setfile', '-d', tmpCreationDate, mediaPath + "/" + strYear + "/" + newDate])
 
-                # Creates subfolder with the year if it does't already exists
-                createFolder(mediaPath + "/" + strYear)
-                check_call(['Setfile', '-d', "01/01/" + strYear + " 01:00", mediaPath + "/" + strYear])
+                fileExtension = os.path.splitext(file)[1]
+                newFileName = strYear + "-" + strNumberMonth + "-" + strDay + EVENT_NAME + f'{index:03}' + fileExtension # {index:03} To add secuency
+                os.rename(file, newFileName)
+                # print(f"file: {file} | newFileName: {newFileName}")
 
-                # get month
-                strNumberMonth = time.strftime('%m', time.localtime(os.path.getmtime(currentPath + file)))
-                strNameMonth = calendar.month_abbr[int(strNumberMonth)]
-
-                # get day
-                strDay = time.strftime('%d', time.localtime(os.path.getmtime(currentPath + file)))
-
-                if i == 1 :
-                    # Keep date to restart index
-                    keepDate = strYear + strNumberMonth + strDay
-                elif keepDate == (strYear + strNumberMonth + strDay):
-                    index += 1
-                else:
-                    index = 1
-                    keepDate = strYear + strNumberMonth + strDay
-
-                dateTimeFromExif = "event_" + strNameMonth + "-" + strDay
-
-                #print(f"dateTimeFromExif: {dateTimeFromExif}")
-
-                if dateTimeFromExif != '':
-                    if createFolder(mediaPath + "/" + strYear + "/" + dateTimeFromExif):
-                        # Set the proper date to the new folder just created
-                        tmpCreationDate =  strNumberMonth + "/" + strDay + "/" + strYear + " 01:00" #"12/20/2020 16:13"
-                        check_call(['Setfile', '-d', tmpCreationDate, mediaPath + "/" + strYear + "/" + dateTimeFromExif])
-
-                        fileExtension = os.path.splitext(file)[1]
-                        newFileName = strYear + "-" + strNumberMonth + "-" + strDay + EVENT_NAME + f'{index:03}' + fileExtension # {index:03} To add secuency
-                        os.rename(file, newFileName)
-                        # print(f"file: {file} | newFileName: {newFileName}")
-
-                        # Move the file (with new name) to the new folder
-                        shutil.move(newFileName, mediaPath + "/" + strYear + "/" + dateTimeFromExif)
-                else:
-                    print(f"DATE {dateTimeFromExif} NOT VALID")
-
-            except OSError:
-                print(f"Path {currentPath} does not exist or is inaccessible")
-                sys.exit()
+                # Move the file (with new name) to the new folder
+                shutil.move(newFileName, mediaPath + "/" + strYear + "/" + newDate)
+        else:
+            print(f"DATE {newDate} NOT VALID")
 
     return
 
