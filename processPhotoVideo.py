@@ -5,16 +5,20 @@
 # TODO
 # Checking dates from EXIF, it is better in processPhotoVideoSony
 # With EXIF info and whitout it are similar, refactor it
+# El problema con los videos puede ser por el orden a la hora
+# de renombrar todo, primero ordernar por fecha y luego empezar a
+# renombrar
 
 import os, shutil, glob
 import exifread #pip install exifread
 import os.path, time, calendar
-
 from subprocess import check_output, check_call
 from datetime import datetime
 
+# Photo and Video files extensions allowed
 PHOTO_TYPES = ('*.dng', '*.DNG', '*.jpe', '*.JPE', '*.jpeg', '*.JPEG', '*.jpg', '*.JPG', '*.png', '*.PNG')
 VIDEO_TYPES = ('*.mov', '*.MOV', '*.mp4', '*.MP4')
+EVENT_NAME = "_event_"
 
 # Creates a new folder and return a boolean
 def createFolder(pathNewFolder):
@@ -103,7 +107,7 @@ def processMediaFiles(mediaFiles, mediaPath):
                     check_call(['Setfile', '-d', tmpCreationDate, mediaPath + "/" + strYear + "/" + dateTimeFromExif])
 
                     fileExtension = os.path.splitext(file)[1]
-                    newFileName = strYear + "-" + strNumberMonth + "-" + strDay + "_event_" + f'{index:03}' + fileExtension # {index:03} To add secuency
+                    newFileName = strYear + "-" + strNumberMonth + "-" + strDay + EVENT_NAME + f'{index:03}' + fileExtension # {index:03} To add secuency
                     os.rename(file, newFileName)
                     # print(f"file: {file} | newFileName: {newFileName}")
 
@@ -153,7 +157,7 @@ def processMediaFiles(mediaFiles, mediaPath):
                         check_call(['Setfile', '-d', tmpCreationDate, mediaPath + "/" + strYear + "/" + dateTimeFromExif])
 
                         fileExtension = os.path.splitext(file)[1]
-                        newFileName = strYear + "-" + strNumberMonth + "-" + strDay + "_event_" + f'{index:03}' + fileExtension # {index:03} To add secuency
+                        newFileName = strYear + "-" + strNumberMonth + "-" + strDay + EVENT_NAME + f'{index:03}' + fileExtension # {index:03} To add secuency
                         os.rename(file, newFileName)
                         # print(f"file: {file} | newFileName: {newFileName}")
 

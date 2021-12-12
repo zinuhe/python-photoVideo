@@ -5,14 +5,13 @@
 
 # TODO
 # -cambiarle al folder la fecha de creacion?
-# -preguntar por parametro si usar "_event_" o algo diferente
 
 import os, shutil, glob, sys
 import exifread #pip3 install exifread
 import os.path, time, calendar
 from subprocess import check_output, check_call
 from datetime import datetime
- 
+
 # Photo files extensions allowed
 PHOTO_TYPES = ['.DNG', '.JPE', '.JPEG', '.JPG', '.PNG']
 EVENT_NAME = "_event_"
@@ -44,7 +43,7 @@ for folder in folders:
         # get file extension
         fileExtension = os.path.splitext(file)[1]
         # print(f"fileExtension: {fileExtension}")
-        
+
         # Filter only PHOTO_TYPES files
         if fileExtension.upper() in PHOTO_TYPES:
             # Open image file for reading (binary mode)
@@ -108,5 +107,3 @@ for folder in folders:
                 sys.exit()
     else:
         print(f"ERROR - Getting new folder name for {folder} fails - probably date is not valid")
-
-
