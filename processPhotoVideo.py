@@ -3,6 +3,15 @@
 # By example files from iPhone
 
 # TODO
+#El problema con los videos es que no los organiza por fecha hora, encuentra uno
+#y lo mueve al directorio luego encuentra otro y lo numera 001 de nuevo pero ese
+#ya existe en el directorio entoces falla
+#1)Solucion odernarlos por fecha/hora antes de procesarlos y moverlos
+#2)Verificar si en el folder ya hay un archivo y actualizar el indice antes de
+#moverlo
+#3)Mover primero todos los archivos a los respectivos folders y luego
+#renombrarlos ordenadamente por hora
+##NO ESTA FUNCIONANDO BIEN, cuando funciona no quedan bien ordenados
 
 import os, shutil, glob
 import exifread #pip install exifread
@@ -57,15 +66,16 @@ def processMediaFiles(mediaFiles, mediaPath):
 
         try:
             if bool(tags):
-                    dateFromExif = tags['EXIF DateTimeDigitized']
-                    # It needs to be converted to datetime - 2021-07-15 09:42:07
-                    dateFrom = datetime.strptime(str(dateFromExif), '%Y:%m:%d %H:%M:%S')
+                #print(f"tags['EXIF DateTimeOriginal']: {tags['EXIF DateTimeOriginal']}")
+                dateFromExif = tags['EXIF DateTimeDigitized']
+                # It needs to be converted to datetime - 2021-07-15 09:42:07
+                dateFrom = datetime.strptime(str(dateFromExif), '%Y:%m:%d %H:%M:%S')
             else: #Not EXIF Info
-                    # get creation/modification date from the file
-                    # creationTime     = time.strftime('%Y-%m-%d', time.localtime(os.path.getctime(currentPath + file)))
-                    # modificationTime = time.strftime('%Y-%m-%d', time.localtime(os.path.getmtime(currentPath + file)))
-                    dateFromCreationDate = time.strftime('%Y-%m-%d', time.localtime(os.path.getmtime(currentPath + file)))
-                    dateFrom = datetime.strptime(str(dateFromCreationDate), '%Y-%m-%d')
+                # get creation/modification date from the file
+                # creationTime     = time.strftime('%Y-%m-%d', time.localtime(os.path.getctime(currentPath + file)))
+                # modificationTime = time.strftime('%Y-%m-%d', time.localtime(os.path.getmtime(currentPath + file)))
+                dateFromCreationDate = time.strftime('%Y-%m-%d', time.localtime(os.path.getmtime(currentPath + file)))
+                dateFrom = datetime.strptime(str(dateFromCreationDate), '%Y-%m-%d')
         except OSError:
             print(f"Path {currentPath} does not exist or is inaccessible")
             sys.exit()
@@ -109,6 +119,7 @@ def processMediaFiles(mediaFiles, mediaPath):
 
                 # Move the file (with new name) to the new folder
                 shutil.move(newFileName, mediaPath + "/" + strYear + "/" + newDate)
+                time.sleep(0.5)
         else:
             print(f"DATE {newDate} NOT VALID")
 
