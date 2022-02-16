@@ -1,4 +1,4 @@
-# Python3 processPhotoVideo.py
+# Python3 ~/Documents/DEV/Python/SourceCode/PhotoVideo/processPhotoVideo.py
 # To process photo and video files under same folder
 # By example files from iPhone
 
@@ -119,7 +119,7 @@ def processMediaFiles(mediaFiles, mediaPath):
 
                 # Move the file (with new name) to the new folder
                 shutil.move(newFileName, mediaPath + "/" + strYear + "/" + newDate)
-                time.sleep(0.5)
+                # time.sleep(0.5)
         else:
             print(f"DATE {newDate} NOT VALID")
 
