@@ -3,15 +3,7 @@
 # By example files from iPhone
 
 # TODO
-#El problema con los videos es que no los organiza por fecha hora, encuentra uno
-#y lo mueve al directorio luego encuentra otro y lo numera 001 de nuevo pero ese
-#ya existe en el directorio entoces falla
-#1)Solucion odernarlos por fecha/hora antes de procesarlos y moverlos
-#2)Verificar si en el folder ya hay un archivo y actualizar el indice antes de
-#moverlo
-#3)Mover primero todos los archivos a los respectivos folders y luego
-#renombrarlos ordenadamente por hora
-##NO ESTA FUNCIONANDO BIEN, cuando funciona no quedan bien ordenados
+# Issues to be fixed on V2
 
 import os, shutil, glob
 import exifread #pip install exifread
