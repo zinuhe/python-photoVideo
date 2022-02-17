@@ -17,7 +17,7 @@
 #Crear un array con nombre, extension, fecha creacion EXIF, fecha creacion file
 #Ordenar ese array por fecha creacion EXIF si no existe usar fecha creacion file
 
-#Ya estoy trabajando en eso, el array ya esta implementado y ordenado continuar desde ahi 
+#Ya estoy trabajando en eso, el array ya esta implementado y ordenado continuar desde ahi
 
 import os, shutil, glob
 import exifread #pip install exifread
@@ -32,13 +32,19 @@ EVENT_NAME = "_event_"
 
 # To manage object file
 class file:
-    def __init__(self, name, ext, exifCreation, exifModification, fileCreation, fileModification):
+    # def __init__(self, name, exifCreation, exifModification, fileCreation, fileModification):
+    def __init__(self, name, year, monthNumber, monthName, day, fullDate, exifCreation):
         self.name = name
-        self.ext = ext
+        self.year = year
+        self.monthNumber = monthNumber
+        self.monthName = monthName
+        self.day = day
+        self.fullDate = fullDate
         self.exifCreation = exifCreation
-        self.exifModification = exifModification
-        self.fileCreation = fileCreation
-        self.fileModification = fileModification
+        # self.ext = ext
+        # self.exifModification = exifModification
+        # self.fileCreation = fileCreation
+        # self.fileModification = fileModification
 
 
 # Creates a new folder and return a boolean
@@ -65,10 +71,26 @@ def getNameFiles(p_extensionFiles):
     for ext in p_extensionFiles:
         filesNames.extend(glob.glob(ext))
 
-    # filesNames.sort()
-    # print(f"Files Names sort: {filesNames}")
     return filesNames
 
+# Gets the year from a given date
+def getYear(inputDate):
+    return str(inputDate.year)
+
+# Gets the month from a given date
+def getMonthNumber(inputDate):
+    return inputDate.strftime('%m')
+
+# Gets the month's name from a given date
+def getMonthName(inputDate):
+    return calendar.month_abbr[int(getMonthNumber(inputDate))]
+
+# Gets the day from a given date
+def getDay(inputDate):
+    return inputDate.strftime('%d')
+
+def getFullDate(inputDate):
+    return getYear(inputDate) + getMonthNumber(inputDate) + getDay(inputDate)
 
 #WORKING HERE
 # Return a list of 'file' objects sorted by creation/modification date
@@ -99,12 +121,13 @@ def getFileInfo(listFilesNames):
             sys.exit()
 
         # appending instances to list files
-        files.append(file(item, item, dateFrom, '', '', ''))
+        files.append(file(item, getYear(dateFrom), getMonthNumber(dateFrom), getMonthName(dateFrom), getDay(dateFrom), getFullDate(dateFrom), dateFrom))
 
     print(f"FILES")
     x = sorted(files, key=lambda file:file.exifCreation) # sort by exifCreation
     for f in x:
-        print(f"{f.name}, {f.ext}, {f.exifCreation}, {f.exifModification}, {f.fileCreation}, {f.fileModification}")
+        print(f"{f.name}, {f.year}, {f.monthNumber}, {f.monthName}, {f.day}, {f.fullDate},  {f.exifCreation}")
+        # print(f"{f.name}, {f.exifCreation}, {f.exifModification}, {f.fileCreation}, {f.fileModification}")
 
     return files
 
@@ -113,68 +136,40 @@ def processMediaFiles(mediaFiles, mediaPath):
     index = 1
 
     # for file in mediaFiles:
+    # for i, file in mediaFiles:
     for i, file in enumerate(mediaFiles, start=1):
-        # Open media file for reading (binary mode)
-        f = open(currentPath + file, 'rb')
-
-        # Return Exif tags
-        tags = exifread.process_file(f, details=False, stop_tag='EXIF DateTimeDigitized')
-
-        try:
-            if bool(tags):
-                #print(f"tags['EXIF DateTimeOriginal']: {tags['EXIF DateTimeOriginal']}")
-                dateFromExif = tags['EXIF DateTimeDigitized']
-                # It needs to be converted to datetime - 2021-07-15 09:42:07
-                dateFrom = datetime.strptime(str(dateFromExif), '%Y:%m:%d %H:%M:%S')
-            else: #Not EXIF Info
-                # get creation/modification date from the file
-                # creationTime     = time.strftime('%Y-%m-%d', time.localtime(os.path.getctime(currentPath + file)))
-                # modificationTime = time.strftime('%Y-%m-%d', time.localtime(os.path.getmtime(currentPath + file)))
-                dateFromCreationDate = time.strftime('%Y-%m-%d', time.localtime(os.path.getmtime(currentPath + file)))
-                dateFrom = datetime.strptime(str(dateFromCreationDate), '%Y-%m-%d')
-        except OSError:
-            print(f"Path {currentPath} does not exist or is inaccessible")
-            sys.exit()
-
-        # get year
-        strYear = str(dateFrom.year)
 
         # Creates subfolder with the year if it does't already exists
-        createFolder(mediaPath + "/" + strYear)
-        check_call(['Setfile', '-d', "01/01/" + strYear + " 01:00", mediaPath + "/" + strYear])
-
-        # get month
-        strNumberMonth = dateFrom.strftime('%m')
-        strNameMonth = calendar.month_abbr[int(strNumberMonth)]
-
-        # get day
-        strDay = dateFrom.strftime('%d')
-
+        createFolder(mediaPath + "/" + file.year)
+        check_call(['Setfile', '-d', "01/01/" + file.year + " 01:00", mediaPath + "/" + file.year])
 
         if i == 1 :
             # Keep date to restart index
-            keepDate = strYear + strNumberMonth + strDay
-        elif keepDate == (strYear + strNumberMonth + strDay):
+            keepDate = file.fullDate  #file.year + strNumberMonth + file.day
+        elif keepDate == file.fullDate:  #(file.year + strNumberMonth + file.day):
             index += 1
         else:
             index = 1
-            keepDate = strYear + strNumberMonth + strDay
+            keepDate = file.fullDate   #strYear + strNumberMonth + strDay
 
-        newDate = "event_" + strNameMonth + "-" + strDay
+        newDate = "event_" + file.monthName + file.day     #+ strNameMonth + "-" + strDay
 
         if newDate != '':
-            if createFolder(mediaPath + "/" + strYear + "/" + newDate):
+            if createFolder(mediaPath + "/" + file.year + "/" + newDate):
                 # Set the proper date to the new folder just created
-                tmpCreationDate =  strNumberMonth + "/" + strDay + "/" + strYear + " 01:00" #"12/20/2020 16:13"
-                check_call(['Setfile', '-d', tmpCreationDate, mediaPath + "/" + strYear + "/" + newDate])
+                tmpCreationDate =  file.monthNumber + "/" + file.day + "/" + file.year + " 01:00" #"12/20/2020 16:13"
+                check_call(['Setfile', '-d', tmpCreationDate, mediaPath + "/" + file.year + "/" + newDate])
 
-                fileExtension = os.path.splitext(file)[1]
-                newFileName = strYear + "-" + strNumberMonth + "-" + strDay + EVENT_NAME + f'{index:03}' + fileExtension # {index:03} To add secuency
-                os.rename(file, newFileName)
+                # fileExtension = os.path.splitext(file)[1]
+                fileExtension = os.path.splitext(file.name)[1]
+                newFileName = file.year + "-" + file.monthNumber + "-" + file.day + EVENT_NAME + f'{index:03}' + fileExtension # {index:03} To add secuency
+                # os.rename(file, newFileName)
                 # print(f"file: {file} | newFileName: {newFileName}")
+                os.rename(file.name, newFileName)
+                print(f"file: {file.name} | newFileName: {newFileName}")
 
                 # Move the file (with new name) to the new folder
-                shutil.move(newFileName, mediaPath + "/" + strYear + "/" + newDate)
+                # shutil.move(newFileName, mediaPath + "/" + file.year + "/" + newDate)
                 # time.sleep(0.5)
         else:
             print(f"DATE {newDate} NOT VALID")
@@ -194,15 +189,15 @@ videoPath = currentPath + "video"
 photoFiles = getNameFiles(PHOTO_TYPES) #returns an array with photo files
 videoFiles = getNameFiles(VIDEO_TYPES) #returns an array with video files
 
-#NEW
-photoFiles2 = getFileInfo(photoFiles) #returns an array with photo files
+if len(photoFiles) > 0:
+    createFolder(photoPath)
 
-# if len(photoFiles) > 0:
-#     createFolder(photoPath)
-#     # Process photo files
-#     processMediaFiles(photoFiles, photoPath)
-#
-# if len(videoFiles) > 0:
-#     createFolder(videoPath)
-#     # Process video files
-#     processMediaFiles(videoFiles, videoPath)
+    photoFiles2 = getFileInfo(photoFiles) #returns an array with photo files
+
+    # Process photo files
+    processMediaFiles(photoFiles2, photoPath)
+
+if len(videoFiles) > 0:
+    createFolder(videoPath)
+    # Process video files
+    processMediaFiles(videoFiles, videoPath)
