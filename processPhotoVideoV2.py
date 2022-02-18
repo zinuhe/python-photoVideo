@@ -13,11 +13,10 @@ from datetime import datetime
 # Photo and Video files extensions allowed
 PHOTO_TYPES = ('*.dng', '*.DNG', '*.jpe', '*.JPE', '*.jpeg', '*.JPEG', '*.jpg', '*.JPG', '*.png', '*.PNG')
 VIDEO_TYPES = ('*.mov', '*.MOV', '*.mp4', '*.MP4')
-EVENT_NAME = "_event_"
+EVENT_NAME = "event_"
 
 # To manage object file
 class file:
-    # def __init__(self, name, exifCreation, exifModification, fileCreation, fileModification):
     def __init__(self, name, year, monthNumber, monthName, day, fullDate, exifCreation):
         self.name = name
         self.year = year
@@ -26,11 +25,6 @@ class file:
         self.day = day
         self.fullDate = fullDate
         self.exifCreation = exifCreation
-        # self.ext = ext
-        # self.exifModification = exifModification
-        # self.fileCreation = fileCreation
-        # self.fileModification = fileModification
-
 
 # Creates a new folder and return a boolean
 def createFolder(pathNewFolder):
@@ -41,7 +35,6 @@ def createFolder(pathNewFolder):
         except OSError:
             print(f"Creation of the directory {pathNewFolder} failed")
         else:
-            # print(f"Successfully created the folder: {pathNewFolder}")
             isCreatedOrExists = True
     else:
         # print(f"Folder '{pathNewFolder}' already exists")
@@ -130,7 +123,7 @@ def processMediaFiles(mediaFiles, mediaPath):
             index = 1
             keepDate = file.fullDate
 
-        newDate = "event_" + file.monthName + "-" + file.day
+        newDate = EVENT_NAME + file.monthName + "-" + file.day
 
         if newDate != '':
             if createFolder(mediaPath + "/" + file.year + "/" + newDate):
@@ -139,9 +132,8 @@ def processMediaFiles(mediaFiles, mediaPath):
                 check_call(['Setfile', '-d', tmpCreationDate, mediaPath + "/" + file.year + "/" + newDate])
 
                 fileExtension = os.path.splitext(file.name)[1]
-                newFileName = file.year + "-" + file.monthNumber + "-" + file.day + EVENT_NAME + f'{index:03}' + fileExtension # {index:03} To add secuency
+                newFileName = file.year + "-" + file.monthNumber + "-" + file.day + "_" + EVENT_NAME + f'{index:03}' + fileExtension # {index:03} To add secuency
                 os.rename(file.name, newFileName)
-                # print(f"file: {file.name} | newFileName: {newFileName}")
 
                 # Move the file (using new name) to the new folder
                 shutil.move(newFileName, mediaPath + "/" + file.year + "/" + newDate)
@@ -150,7 +142,7 @@ def processMediaFiles(mediaFiles, mediaPath):
 
     return
 
-# Detects the current working directory
+# Gets the current working directory
 currentPath = os.getcwd() + "/"
 
 # Prefix the name of the directory to be created
