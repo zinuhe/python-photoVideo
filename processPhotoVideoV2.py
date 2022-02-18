@@ -3,7 +3,7 @@
 # By example files from iPhone
 
 #TODO
-#Ya estoy trabajando en eso, el array ya esta implementado y ordenado continuar desde ahi
+#Los videos no los ordena bien
 
 import os, shutil, glob
 import exifread #pip install exifread
@@ -83,9 +83,9 @@ def getFullDate(inputDate):
 def getFileInfo(listFilesNames):
     files = []
 
-    for item in listFilesNames:
+    for fileName in listFilesNames:
         # Open media file for reading (binary mode)
-        f = open(currentPath + item, 'rb')
+        f = open(currentPath + fileName, 'rb')
 
         # Return Exif tags
         tags = exifread.process_file(f, details=False, stop_tag='EXIF DateTimeDigitized')
@@ -94,20 +94,18 @@ def getFileInfo(listFilesNames):
             if bool(tags):
                 #print(f"tags['EXIF DateTimeOriginal']: {tags['EXIF DateTimeOriginal']}")
                 dateFromExif = tags['EXIF DateTimeDigitized']
-                # It needs to be converted to datetime - 2021-07-15 09:42:07
+                # It needs to be converted to datetime - 2022-09-28 19:40:07
                 dateFrom = datetime.strptime(str(dateFromExif), '%Y:%m:%d %H:%M:%S')
-            else: #Not EXIF Info
-                # get creation/modification date from the file
-                # creationTime     = time.strftime('%Y-%m-%d', time.localtime(os.path.getctime(currentPath + file)))
-                # modificationTime = time.strftime('%Y-%m-%d', time.localtime(os.path.getmtime(currentPath + file)))
-                dateFromCreationDate = time.strftime('%Y-%m-%d', time.localtime(os.path.getmtime(currentPath + file)))
-                dateFrom = datetime.strptime(str(dateFromCreationDate), '%Y-%m-%d')
+            else: #Not EXIF Info - get creation/modification date from the file
+                # creationDate = time.strftime('%Y-%m-%d', time.localtime(os.path.getctime(currentPath + fileName)))
+                modificationDate = time.strftime('%Y-%m-%d', time.localtime(os.path.getmtime(currentPath + fileName)))
+                dateFrom = datetime.strptime(str(modificationDate), '%Y-%m-%d')
         except OSError:
             print(f"Path {currentPath} does not exist or is inaccessible")
             sys.exit()
 
         # appending instances to list files
-        files.append(file(item, getYear(dateFrom), getMonthNumber(dateFrom), getMonthName(dateFrom), getDay(dateFrom), getFullDate(dateFrom), dateFrom))
+        files.append(file(fileName, getYear(dateFrom), getMonthNumber(dateFrom), getMonthName(dateFrom), getDay(dateFrom), getFullDate(dateFrom), dateFrom))
 
     sortedFiles = sorted(files, key=lambda file:file.exifCreation) # sort by exifCreation
     # for f in sortedFiles:
