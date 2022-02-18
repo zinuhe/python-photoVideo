@@ -126,17 +126,20 @@ def processMediaFiles(mediaFiles, mediaPath):
         newDate = EVENT_NAME + file.monthName + "-" + file.day
 
         if newDate != '':
-            if createFolder(mediaPath + "/" + file.year + "/" + newDate):
+            if createFolder("/".join((mediaPath, file.year, newDate))):
                 # Set the proper date to the new folder just created
                 tmpCreationDate =  file.monthNumber + "/" + file.day + "/" + file.year + " 01:00" #"12/20/2020 16:13"
                 check_call(['Setfile', '-d', tmpCreationDate, mediaPath + "/" + file.year + "/" + newDate])
 
                 fileExtension = os.path.splitext(file.name)[1]
-                newFileName = file.year + "-" + file.monthNumber + "-" + file.day + "_" + EVENT_NAME + f'{index:03}' + fileExtension # {index:03} To add secuency
+
+                newFileName = "-".join((file.year, file.monthNumber, file.day))
+                newFileName = "".join((newFileName, "_", EVENT_NAME, f'{index:03}', fileExtension)) # {index:03} To add secuency
+
                 os.rename(file.name, newFileName)
 
                 # Move the file (using new name) to the new folder
-                shutil.move(newFileName, mediaPath + "/" + file.year + "/" + newDate)
+                shutil.move(newFileName, "/".join((mediaPath, file.year, newDate)))
         else:
             print(f"DATE {newDate} NOT VALID")
 
