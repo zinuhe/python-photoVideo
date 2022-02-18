@@ -109,7 +109,6 @@ def getFileInfo(listFilesNames):
         # appending instances to list files
         files.append(file(item, getYear(dateFrom), getMonthNumber(dateFrom), getMonthName(dateFrom), getDay(dateFrom), getFullDate(dateFrom), dateFrom))
 
-    print(f"FILES")
     sortedFiles = sorted(files, key=lambda file:file.exifCreation) # sort by exifCreation
     # for f in sortedFiles:
     #     print(f"{f.name}, {f.year}, {f.monthNumber}, {f.monthName}, {f.day}, {f.fullDate},  {f.exifCreation}")
@@ -120,20 +119,12 @@ def getFileInfo(listFilesNames):
 def processMediaFiles(mediaFiles, mediaPath):
     index = 1
 
-    # for file in mediaFiles:
-    # for i, file in mediaFiles:
-
-    print(f"files.len: {len(mediaFiles)}")
-
     for i, file in enumerate(mediaFiles, start=1):
-
-        print(f"--file: {file.name} | i={i}")
-
         # Creates subfolder with the year if it doesn't already exists
         createFolder(mediaPath + "/" + file.year)
         check_call(['Setfile', '-d', "01/01/" + file.year + " 01:00", mediaPath + "/" + file.year])
 
-        if i == 1 :
+        if i == 1:
             # Keep date to restart index
             keepDate = file.fullDate
         elif keepDate == file.fullDate:
@@ -153,11 +144,10 @@ def processMediaFiles(mediaFiles, mediaPath):
                 fileExtension = os.path.splitext(file.name)[1]
                 newFileName = file.year + "-" + file.monthNumber + "-" + file.day + EVENT_NAME + f'{index:03}' + fileExtension # {index:03} To add secuency
                 os.rename(file.name, newFileName)
-                print(f"file: {file.name} | newFileName: {newFileName} | i={i}")
+                # print(f"file: {file.name} | newFileName: {newFileName}")
 
-                # Move the file (with new name) to the new folder
+                # Move the file (using new name) to the new folder
                 shutil.move(newFileName, mediaPath + "/" + file.year + "/" + newDate)
-                # time.sleep(0.5)
         else:
             print(f"DATE {newDate} NOT VALID")
 
@@ -178,13 +168,12 @@ videoFiles = getNameFiles(VIDEO_TYPES) #returns an array with video files
 
 if len(photoFiles) > 0:
     createFolder(photoPath)
-
-    photoFiles2 = getFileInfo(photoFiles) #returns an array with photo files
-
+    orderedPhotoFiles = getFileInfo(photoFiles)
     # Process photo files
-    processMediaFiles(photoFiles2, photoPath)
+    processMediaFiles(orderedPhotoFiles, photoPath)
 
 if len(videoFiles) > 0:
     createFolder(videoPath)
+    orderedVideoFiles = getFileInfo(videoFiles)
     # Process video files
-    processMediaFiles(videoFiles, videoPath)
+    processMediaFiles(orderedVideoFiles, videoPath)
