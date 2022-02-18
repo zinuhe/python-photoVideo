@@ -3,7 +3,6 @@
 # By example files from iPhone
 
 #TODO
-#Los videos no los ordena bien
 
 import os, shutil, glob
 import exifread #pip install exifread
@@ -98,8 +97,8 @@ def getFileInfo(listFilesNames):
                 dateFrom = datetime.strptime(str(dateFromExif), '%Y:%m:%d %H:%M:%S')
             else: #Not EXIF Info - get creation/modification date from the file
                 # creationDate = time.strftime('%Y-%m-%d', time.localtime(os.path.getctime(currentPath + fileName)))
-                modificationDate = time.strftime('%Y-%m-%d', time.localtime(os.path.getmtime(currentPath + fileName)))
-                dateFrom = datetime.strptime(str(modificationDate), '%Y-%m-%d')
+                modificationDate = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(os.path.getmtime(currentPath + fileName)))
+                dateFrom = datetime.strptime(str(modificationDate), '%Y-%m-%d %H:%M:%S')
         except OSError:
             print(f"Path {currentPath} does not exist or is inaccessible")
             sys.exit()
