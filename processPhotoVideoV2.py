@@ -2,21 +2,7 @@
 # To process photo and video files under same folder
 # By example files from iPhone
 
-# TODO
-#El problema con los videos es que no los organiza por fecha hora, encuentra uno
-#y lo mueve al directorio luego encuentra otro y lo numera 001 de nuevo pero ese
-#ya existe en el directorio entoces falla
-#1)Solucion odernarlos por fecha/hora antes de procesarlos y moverlos
-#2)Verificar si en el folder ya hay un archivo y actualizar el indice antes de
-#moverlo
-
-##EL PROBLEMA ES QUE CUANDO HACE EL SORT LO HACE POR NOMBRE EN LUGAR DE
-## FECHA CREACION o MODIFICATION
-
-##Solucion
-#Crear un array con nombre, extension, fecha creacion EXIF, fecha creacion file
-#Ordenar ese array por fecha creacion EXIF si no existe usar fecha creacion file
-
+#TODO
 #Ya estoy trabajando en eso, el array ya esta implementado y ordenado continuar desde ahi
 
 import os, shutil, glob
@@ -124,12 +110,11 @@ def getFileInfo(listFilesNames):
         files.append(file(item, getYear(dateFrom), getMonthNumber(dateFrom), getMonthName(dateFrom), getDay(dateFrom), getFullDate(dateFrom), dateFrom))
 
     print(f"FILES")
-    x = sorted(files, key=lambda file:file.exifCreation) # sort by exifCreation
-    for f in x:
-        print(f"{f.name}, {f.year}, {f.monthNumber}, {f.monthName}, {f.day}, {f.fullDate},  {f.exifCreation}")
-        # print(f"{f.name}, {f.exifCreation}, {f.exifModification}, {f.fileCreation}, {f.fileModification}")
+    sortedFiles = sorted(files, key=lambda file:file.exifCreation) # sort by exifCreation
+    # for f in sortedFiles:
+    #     print(f"{f.name}, {f.year}, {f.monthNumber}, {f.monthName}, {f.day}, {f.fullDate},  {f.exifCreation}")
 
-    return files
+    return sortedFiles
 
 # Iterates throught files and moves them
 def processMediaFiles(mediaFiles, mediaPath):
@@ -137,22 +122,27 @@ def processMediaFiles(mediaFiles, mediaPath):
 
     # for file in mediaFiles:
     # for i, file in mediaFiles:
+
+    print(f"files.len: {len(mediaFiles)}")
+
     for i, file in enumerate(mediaFiles, start=1):
 
-        # Creates subfolder with the year if it does't already exists
+        print(f"--file: {file.name} | i={i}")
+
+        # Creates subfolder with the year if it doesn't already exists
         createFolder(mediaPath + "/" + file.year)
         check_call(['Setfile', '-d', "01/01/" + file.year + " 01:00", mediaPath + "/" + file.year])
 
         if i == 1 :
             # Keep date to restart index
-            keepDate = file.fullDate  #file.year + strNumberMonth + file.day
-        elif keepDate == file.fullDate:  #(file.year + strNumberMonth + file.day):
+            keepDate = file.fullDate
+        elif keepDate == file.fullDate:
             index += 1
         else:
             index = 1
-            keepDate = file.fullDate   #strYear + strNumberMonth + strDay
+            keepDate = file.fullDate
 
-        newDate = "event_" + file.monthName + file.day     #+ strNameMonth + "-" + strDay
+        newDate = "event_" + file.monthName + "-" + file.day
 
         if newDate != '':
             if createFolder(mediaPath + "/" + file.year + "/" + newDate):
@@ -160,16 +150,13 @@ def processMediaFiles(mediaFiles, mediaPath):
                 tmpCreationDate =  file.monthNumber + "/" + file.day + "/" + file.year + " 01:00" #"12/20/2020 16:13"
                 check_call(['Setfile', '-d', tmpCreationDate, mediaPath + "/" + file.year + "/" + newDate])
 
-                # fileExtension = os.path.splitext(file)[1]
                 fileExtension = os.path.splitext(file.name)[1]
                 newFileName = file.year + "-" + file.monthNumber + "-" + file.day + EVENT_NAME + f'{index:03}' + fileExtension # {index:03} To add secuency
-                # os.rename(file, newFileName)
-                # print(f"file: {file} | newFileName: {newFileName}")
                 os.rename(file.name, newFileName)
-                print(f"file: {file.name} | newFileName: {newFileName}")
+                print(f"file: {file.name} | newFileName: {newFileName} | i={i}")
 
                 # Move the file (with new name) to the new folder
-                # shutil.move(newFileName, mediaPath + "/" + file.year + "/" + newDate)
+                shutil.move(newFileName, mediaPath + "/" + file.year + "/" + newDate)
                 # time.sleep(0.5)
         else:
             print(f"DATE {newDate} NOT VALID")
