@@ -1,8 +1,8 @@
 # Python3 ~/Documents/DEV/Python/SourceCode/PhotoVideo/processPhotoVideoV2.py
-# To process photo and video files under same folder
+# To process photo and video files under the same folder
 # By example files from iPhone
 
-#TODO
+#ToDo
 
 import os, shutil, glob
 import exifread #pip install exifread
