@@ -1,11 +1,11 @@
-# Python3 ~/Documents/DEV/Python/SourceCode/PhotoVideo/processPhotoVideoV2.py
-# Python3 processPhotoVideoV2.py
+# Python3 ~/Documents/DEV/Python/SourceCode/PhotoVideo/processPhotoVideo.py
+# Python3 processPhotoVideo.py
 # To process photo and video files under the same folder
 # By example files from iPhone
 
-#ToDo
+# ToDo
 
-import os, shutil, glob
+import os, shutil, glob, sys
 import exifread #pip install exifread
 import os.path, time, calendar
 from subprocess import check_output, check_call
@@ -71,7 +71,7 @@ def getDay(inputDate):
 def getFullDate(inputDate):
     return getYear(inputDate) + getMonthNumber(inputDate) + getDay(inputDate)
 
-#WORKING HERE
+# WORKING HERE - something failing here
 # Return a list of 'file' objects sorted by creation/modification date
 def getFileInfo(listFilesNames):
     files = []
@@ -81,24 +81,38 @@ def getFileInfo(listFilesNames):
         f = open(currentPath + fileName, 'rb')
 
         # Return Exif tags
-        tags = exifread.process_file(f, details=False, stop_tag='EXIF DateTimeDigitized')
+        try:
+            tags = exifread.process_file(f, details=False, stop_tag='EXIF DateTimeDigitized')
+        except:
+            print(f"File '{currentPath}{fileName}' fails getting EXIF DateTimeDigitized")
+            sys.exit()
+        finally:
+            f.close()
 
         try:
-            if bool(tags):
-                #print(f"tags['EXIF DateTimeOriginal']: {tags['EXIF DateTimeOriginal']}")
+            # print(f"tags: {tags}")
+            print(f"bool(tags['EXIF DateTimeDigitized']): {bool(tags['EXIF DateTimeDigitized'])}")
+            if bool(tags) and bool(tags['EXIF DateTimeDigitized']):
+                # print(f"tags['EXIF DateTimeOriginal']: {tags['EXIF DateTimeOriginal']}")
+                # validar que este tag exista
                 dateFromExif = tags['EXIF DateTimeDigitized']
+                print(f"dateFromExif:{dateFromExif}")
                 # It needs to be converted to datetime - 2022-09-28 19:40:07
                 dateFrom = datetime.strptime(str(dateFromExif), '%Y:%m:%d %H:%M:%S')
-            else: #Not EXIF Info - get creation/modification date from the file
+            else: # Not EXIF Info - get creation/modification date from the file
                 # creationDate = time.strftime('%Y-%m-%d', time.localtime(os.path.getctime(currentPath + fileName)))
                 modificationDate = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(os.path.getmtime(currentPath + fileName)))
                 dateFrom = datetime.strptime(str(modificationDate), '%Y-%m-%d %H:%M:%S')
-        except OSError:
-            print(f"Path {currentPath} does not exist or is inaccessible")
+        except:
+            print(f"File '{currentPath}{fileName}' tag info has an issue.")
             sys.exit()
+        finally:
+            f.close()
 
         # appending instances to list files
+        # ***AGREGAR SOLO LOS QUE NO FALLAN?
         files.append(file(fileName, getYear(dateFrom), getMonthNumber(dateFrom), getMonthName(dateFrom), getDay(dateFrom), getFullDate(dateFrom), dateFrom))
+        f.close()
 
     sortedFiles = sorted(files, key=lambda file:file.exifCreation) # sort by exifCreation
     # for f in sortedFiles:
@@ -156,12 +170,13 @@ videoPath = currentPath + "video"
 # define the access rights
 # access_rights = 0o755
 
-photoFiles = getNameFiles(PHOTO_TYPES) #returns an array with photo files
-videoFiles = getNameFiles(VIDEO_TYPES) #returns an array with video files
+photoFiles = getNameFiles(PHOTO_TYPES) # returns an array with photo files
+videoFiles = getNameFiles(VIDEO_TYPES) # returns an array with video files
 
 if len(photoFiles) > 0:
     createFolder(photoPath)
-    orderedPhotoFiles = getFileInfo(photoFiles)
+    # print(f"{photoFiles}")
+    orderedPhotoFiles = getFileInfo(photoFiles) # Fallo aqui cuando lo corri en Desktop/Mover-NAS/Iphone copy
     # Process photo files
     processMediaFiles(orderedPhotoFiles, photoPath)
 
