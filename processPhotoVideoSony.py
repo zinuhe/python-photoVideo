@@ -81,7 +81,7 @@ for folder in folders:
                     try:
                         os.rename(folder + "/" + file, folder + "/" + newFileName)
                         #print(f"Renaming file: {folder}/{file} --> {folder}/{newFileName}")
-                    except OSError:
+                    except:
                         print(f"Renaming file operation failed: {folder}/{file} --> {folder}/{newFileName}")
                         sys.exit()
                 i += 1
@@ -102,7 +102,7 @@ for folder in folders:
                 # Rename folder
                 #print(f"Renaming folder: {folder} --> {newFolderName}")
                 os.rename(folder, newFolderName)
-            except OSError:
+            except:
                 print(f"Renaming folder operation failed: {folder} --> {newFolderName}")
                 sys.exit()
     else:
