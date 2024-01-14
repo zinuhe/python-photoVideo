@@ -1,5 +1,6 @@
 # Python3 ~/Documents/DEV/Python/SourceCode/PhotoVideo/processPhotoVideo.py
 # Python3 processPhotoVideo.py
+
 # To process photo and video files under the same folder
 # By example files from iPhone
 # What does it do:
