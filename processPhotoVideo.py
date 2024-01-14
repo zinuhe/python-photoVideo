@@ -3,7 +3,7 @@
 # To process photo and video files under the same folder
 # By example files from iPhone
 
-# ToDo
+# TODO
 
 import os, shutil, glob, sys
 import exifread #pip install exifread
@@ -170,8 +170,8 @@ videoPath = currentPath + "video"
 # define the access rights
 # access_rights = 0o755
 
-photoFiles = getNameFiles(PHOTO_TYPES) # returns an array with photo files
-videoFiles = getNameFiles(VIDEO_TYPES) # returns an array with video files
+photoFiles = getNameFiles(PHOTO_TYPES) # returns an array with valid photo files
+videoFiles = getNameFiles(VIDEO_TYPES) # returns an array with valid video files
 
 if len(photoFiles) > 0:
     createFolder(photoPath)
