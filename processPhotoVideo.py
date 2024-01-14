@@ -10,6 +10,7 @@
 # - Moves the files to the respective folder
 
 # TODO
+# It is not working with '.MP4' files from DJI
 
 import os, shutil, glob, sys
 import exifread #pip install exifread
