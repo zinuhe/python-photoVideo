@@ -2,6 +2,11 @@
 # Python3 processPhotoVideo.py
 # To process photo and video files under the same folder
 # By example files from iPhone
+# What does it do:
+# - Reads the entire content of a folder
+# - Creates /photo and /video folders
+# - Inside each one creates a folder by year
+# - Moves the files to the respective folder
 
 # TODO
 
