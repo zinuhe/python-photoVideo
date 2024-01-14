@@ -1,14 +1,13 @@
 # Python3 ~/Documents/DEV/Python/SourceCode/PhotoVideo/processFoldersDates.py
 # Python3 processFoldersDates.py
-# To set up folders creation dates base on inside files
+# To set up folder's creation date base on inside files creation dates
 
 #TODO
-#Todo
 #Go into a folder
 #get files inside and get creation dates
 #get the older file date
 #set up the upper folder with that date
-#Add _month_day at the end of folder's name?
+#Add '_month_day' at the end of folder's name?
 
 import os, shutil, glob
 import exifread #pip install exifread

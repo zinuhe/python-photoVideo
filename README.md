@@ -2,7 +2,7 @@
 
 ## processPhotoVideo.py
 
-To process photo and video files under same folder, by example files from iPhone
+To process photo and video files under same folder, by example files from iPhone.
 
 ## processPhotoVideoSony.py
 
@@ -12,9 +12,9 @@ ASSUMING dates on folders and files are correct.
 
 ## processFolderDates.py
 
-Given a list of folders, it goes inside each one and get the earlies file date and then set up
-the folder's creation date with that date.
-Works for pictures and videos because it uses inside files' creation dates rather than EXIF info
+Given a list of folders, it goes inside each one gets the earlies file date and then set up the folder's creation date with that date.
+
+Works with pictures and videos because it uses inside files' creation dates rather than EXIF info.
 
 ## To check
 
