@@ -1,6 +1,10 @@
 # Python3 ~/Documents/DEV/Python/SourceCode/PhotoVideo/processPhotoVideo.py
 # Python3 processPhotoVideo.py
 
+# From the NAS - TO BE FIXED
+# /Volumes/video/2023/CLIP
+# Python3 DEV/Python/SourceCode/PhotoVideo/processPhotoVideo.py
+
 # To process photo and video files under the same folder
 # By example files from iPhone
 # What does it do:
