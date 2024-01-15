@@ -26,9 +26,9 @@ EVENT_NAME = "_event_"
 currentPath = os.getcwd() + "/"
 
 # Only Folders
-folders = next(os.walk(currentPath))[1] # for the current dir use ('.')
+folders = next(os.walk(currentPath))[1]  # for the current dir use ('.')
 folders.sort()
-#print(folders)
+# print(folders)
 
 for folder in folders:
     # Get files inside folder and sort them out
@@ -77,16 +77,16 @@ for folder in folders:
                 # YYYY-MM-DD_event_001.ext
                 ## newFileName = time.strftime('%Y-%m-%d_event_', time.localtime(os.path.getmtime(currentPath + folder))) + f'{i:03}'
                 newFileName = dateTimeFromExif.strftime('%Y-%m-%d') + EVENT_NAME + f"{i:{_secuence}}"
-                #print(f"newFileName: {newFileName}")
+                # print(f"newFileName: {newFileName}")
 
                 newFileName = newFileName + fileExtension
-                #print(f"newFileName: {newFileName}")
+                # print(f"newFileName: {newFileName}")
 
                 if file != newFileName:
                     # Renaming files
                     try:
                         os.rename(folder + "/" + file, folder + "/" + newFileName)
-                        #print(f"Renaming file: {folder}/{file} --> {folder}/{newFileName}")
+                        # print(f"Renaming file: {folder}/{file} --> {folder}/{newFileName}")
                     except:
                         print(f"Renaming file operation failed: {folder}/{file} --> {folder}/{newFileName}")
                         sys.exit()
@@ -97,7 +97,7 @@ for folder in folders:
             print(f"Not a photo file '{folder}/{file}'")
 
 
-    #print(f"smallestDatetime: {smallestDatetime}")
+    # print(f"smallestDatetime: {smallestDatetime}")
 
     newFolderName = smallestDatetime.strftime("event_%b-%d") #get month name from datetime object
     # print(f"newFolderName: {newFolderName}")
@@ -106,7 +106,7 @@ for folder in folders:
         if newFolderName != folder:
             try:
                 # Rename folder
-                #print(f"Renaming folder: {folder} --> {newFolderName}")
+                # print(f"Renaming folder: {folder} --> {newFolderName}")
                 os.rename(folder, newFolderName)
             except:
                 print(f"Renaming folder operation failed: {folder} --> {newFolderName}")
