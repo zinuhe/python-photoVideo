@@ -5,8 +5,7 @@
 # ASSUMING dates on folders and files are correct
 
 # TODO
-# -cambiarle al folder la fecha de creacion?
-# Sometimes fail
+# Sometimes fail - unknow reason
 
 import os, shutil, glob, sys
 import exifread #pip3 install exifread
