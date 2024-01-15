@@ -8,6 +8,7 @@
 # Fail
 # - if there are two folders with the same date
 #   renaming will fail because they end up with the same name
+#   add a random number at the end of the folder?
 
 # TODO 1 - Line 100
 
