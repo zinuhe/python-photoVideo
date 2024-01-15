@@ -5,14 +5,10 @@
 # ASSUMING dates on folders and files are correct
 
 # TODO
-# Fail
-# - if there are two folders with the same date
-#   renaming will fail because they end up with the same name
-#   add a random number at the end of the folder?
-
-# TODO 1 - Line 100
+# Create folder year and then move the other folders in there
 
 import os, shutil, glob, sys
+from random import randrange
 import exifread #pip3 install exifread
 import os.path, time, calendar
 from subprocess import check_output, check_call
@@ -96,7 +92,6 @@ for folder in folders:
         else:
             print(f"Not a photo file '{folder}/{file}'")
 
-
     # print(f"smallestDatetime: {smallestDatetime}")
 
     newFolderName = smallestDatetime.strftime("event_%b-%d") #get month name from datetime object
@@ -110,6 +105,11 @@ for folder in folders:
                 os.rename(folder, newFolderName)
             except:
                 print(f"Renaming folder operation failed: {folder} --> {newFolderName}")
-                sys.exit()
+                # Could fail because there is already a folder with this name
+                # Add a random number to the name to avoid it
+                newFolderName = newFolderName + "--" + str(randrange(100)) # get a random Integer from 0 to 99 inclusive
+                print(f"Trying: {newFolderName}")
+                os.rename(folder, newFolderName)
+                # sys.exit()
     else:
         print(f"ERROR - Getting new folder name for {folder} fails - probably date is not valid")
