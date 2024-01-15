@@ -5,7 +5,10 @@
 # ASSUMING dates on folders and files are correct
 
 # TODO
-# Sometimes fail - unknow reason
+# Fail
+# - if there are two folders with the same date
+#   renaming will fail because they end up with the same name
+
 # TODO 1 - Line 100
 
 import os, shutil, glob, sys
