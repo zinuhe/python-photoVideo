@@ -6,6 +6,7 @@
 
 # TODO
 # Sometimes fail - unknow reason
+# TODO 1 - Line 100
 
 import os, shutil, glob, sys
 import exifread #pip3 install exifread
@@ -97,7 +98,7 @@ for folder in folders:
     newFolderName = smallestDatetime.strftime("event_%b-%d") #get month name from datetime object
     # print(f"newFolderName: {newFolderName}")
 
-    if newFolderName != '':
+    if newFolderName != '': # TODO 1 - Shouldn't fail just continue with the next one
         if newFolderName != folder:
             try:
                 # Rename folder

@@ -1,7 +1,7 @@
 # Python3 ~/Documents/DEV/Python/SourceCode/PhotoVideo/processFoldersDates.py
 # Python3 processFoldersDates.py
 
-# To set up folder's creation date base on inside files creation dates
+# To set up folder's creation date based on inside files creation dates
 
 #TODO
 #Go into a folder
