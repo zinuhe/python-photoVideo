@@ -1,10 +1,12 @@
 # Python3 processPhotoVideoSony.py
+
 # To process folders and files (photos) from Sony camera and drone?
 # it will set the folder and file names according to date from EXIF info
 # ASSUMING dates on folders and files are correct
 
 # TODO
 # -cambiarle al folder la fecha de creacion?
+# Sometimes fail
 
 import os, shutil, glob, sys
 import exifread #pip3 install exifread
