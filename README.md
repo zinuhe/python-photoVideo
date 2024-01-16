@@ -16,6 +16,8 @@ Given a list of folders, it goes inside each one gets the earlies file date and 
 
 Works with pictures and videos because it uses inside files' creation dates rather than EXIF info.
 
+## processFiles.py
+
 ## To check
 
 [Ice cream](https://towardsdatascience.com/introducing-icecream-never-use-print-to-debug-your-python-code-again-d8f2e5719f8a)
