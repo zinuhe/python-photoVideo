@@ -14,13 +14,12 @@
 #TODO
 # Read files from a folder, same folder, same date - [DONE]
 # sort them by name - [DONE]
-# Re-sequence them
+# Re-sequence them - [DONE]
 
 import os, shutil, glob
 import exifread #pip install exifread
 import os.path, time, datetime, calendar
 from subprocess import check_output, check_call
-# from datetime import datetime
 from icecream import ic #pip install icecream
 from pathlib import Path
 
@@ -49,41 +48,6 @@ def getNameFiles(p_extensionFiles):
 
     return filesNames
 
-# def getOldestDateFromFiles(listFilesNames):
-#     oldestDate = datetime.datetime.today()
-
-#     for fileName in listFilesNames:
-#         c_time = os.stat(currentPath + fileName).st_birthtime
-#         dt_c = datetime.datetime.fromtimestamp(c_time)
-#         if oldestDate > dt_c:
-#             oldestDate = dt_c
-
-#     return oldestDate
-
-
-# Set the proper date to the new folder just created
-# tmpCreationDate =  file.monthNumber + "/" + file.day + "/" + file.year + " 01:00" #"12/20/2020 16:13"
-# check_call(['Setfile', '-d', tmpCreationDate, mediaPath + "/" + file.year + "/" + newDate])
-
-# Gets the year from a given date
-def getYear(inputDate):
-    return str(inputDate.year)
-
-# Gets the month from a given date
-def getMonthNumber(inputDate):
-    return inputDate.strftime('%m')
-
-# Gets the month's name from a given date
-def getMonthName(inputDate):
-    return calendar.month_abbr[int(getMonthNumber(inputDate))]
-
-# Gets the day from a given date
-def getDay(inputDate):
-    return inputDate.strftime('%d')
-
-def getFullDate(inputDate):
-    return getYear(inputDate) + getMonthNumber(inputDate) + getDay(inputDate)
-
 
 # Sort files by name
 def sortFilesByName(files):
@@ -91,6 +55,7 @@ def sortFilesByName(files):
     sortedFiles = sorted(files) # sort by name
 
     return sortedFiles
+
 
 def getLenSequence(file):
   firstFileName = Path(file).stem # get file's name no extension
@@ -100,6 +65,7 @@ def getLenSequence(file):
 
   return len(sequence)
 
+
 def getRawFileName(file):
   fileName = Path(file).stem # get file's name no extension
   positionLastUnderscore = fileName.rfind("_") # last underscore
@@ -107,29 +73,28 @@ def getRawFileName(file):
   return fileName[0:positionLastUnderscore + 1]
 
 # How is the best way
-# 1 - re-name the files and re-sequence them - [doing this one]
-# 2 - read the creation date and re-name then according to it
+# 1 - re-name the files and re-sequence them - [DONE]
+# 2 - read the creation date and re-name them according to it
 def reSequenceFiles(files):
-  # get the first file name - [DONE]
-  # get new start sequence - [DONE]
-  # read the name of each file - [DONE]
-  # re-sequence - [ON IT]
-
   # gets new sequence
   lenSequence = getLenSequence(files[0])
   # ic(lenSequence)
 
-# try:
-#   os.rename(folder + "/" + file, folder + "/" + newFileName)
-#   # print(f"Renaming file: {folder}/{file} --> {folder}/{newFileName}")
-# except:
-#   print(f"Renaming file operation failed: {folder}/{file} --> {folder}/{newFileName}")
-#   sys.exit()
+  for i, file in enumerate(files, start=1):
+    # --- SEEMS TO BE WORKING ---
 
-  for i, fileName in enumerate(files, start=1):
-    # --- WORKING HERE ---
-    newFileName = ''.join((getRawFileName(fileName), f'{i:0{lenSequence}}', '.JPG'))
-    ic(newFileName)
+    # name = os.path.splitext(file)[0]
+    # ic(name)
+    fileExtension = os.path.splitext(file)[1]
+    # ic(fileExtension)
+
+    try:
+      newFileName = ''.join((getRawFileName(file), f'{i:0{lenSequence}}', fileExtension))
+      # ic(newFileName)
+      os.rename(file, newFileName)
+    except:
+      print(f"Rename operation failed: {getRawFileName(file)} --> {newFileName}")
+      # sys.exit()
 
 
 # PROGRAM STARTS
