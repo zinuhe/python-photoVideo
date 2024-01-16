@@ -92,28 +92,44 @@ def sortFilesByName(files):
 
     return sortedFiles
 
+def getLenSequence(file):
+  firstFileName = Path(file).stem # get file's name no extension
+  lastUnderscore = firstFileName.rfind("_") # last underscore
+  sequence = firstFileName[-(len(firstFileName)-lastUnderscore-1):] # gets sequence
+  # newSequence = "".join(f'{1:0{len(sequence)}}') # gets new sequence
+
+  return len(sequence)
+
+def getRawFileName(file):
+  fileName = Path(file).stem # get file's name no extension
+  positionLastUnderscore = fileName.rfind("_") # last underscore
+
+  return fileName[0:positionLastUnderscore + 1]
+
 # How is the best way
 # 1 - re-name the files and re-sequence them - [doing this one]
 # 2 - read the creation date and re-name then according to it
 def reSequenceFiles(files):
-    # get the first file name - [DONE]
-    # get the numeration from the first file name
-    # read the name of each file
-    # get the subtext from the last "_" to the end
-    #   example: "2024-01-20_event_001" gets "001"
-    # re-sequence
+  # get the first file name - [DONE]
+  # get new start sequence - [DONE]
+  # read the name of each file - [DONE]
+  # re-sequence - [ON IT]
 
-    # only name
-    firstFileName = ic(Path(files[0]).stem)
+  # gets new sequence
+  lenSequence = getLenSequence(files[0])
+  # ic(lenSequence)
 
-    # numeration
+# try:
+#   os.rename(folder + "/" + file, folder + "/" + newFileName)
+#   # print(f"Renaming file: {folder}/{file} --> {folder}/{newFileName}")
+# except:
+#   print(f"Renaming file operation failed: {folder}/{file} --> {folder}/{newFileName}")
+#   sys.exit()
 
-
-    for fileName in files:
-      ic(fileName)
-
-
-    # return sequencedFiles
+  for i, fileName in enumerate(files, start=1):
+    # --- WORKING HERE ---
+    newFileName = ''.join((getRawFileName(fileName), f'{i:0{lenSequence}}', '.JPG'))
+    ic(newFileName)
 
 
 # PROGRAM STARTS
@@ -125,6 +141,6 @@ videoFiles = getNameFiles(VIDEO_TYPES) #returns an array with valid video files
 # ic(photoFiles)
 
 sortedFiles = sortFilesByName(photoFiles)
-ic(sortedFiles)
+# ic(sortedFiles)
 
 reSequenceFiles(sortedFiles)
