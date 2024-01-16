@@ -1,4 +1,4 @@
-# Python3 ~/Documents/DEV/Python/SourceCode/PhotoVideo/processPhotoVideo.py
+# Python3 ~/MyDocuments/DEV/Python/SourceCode/PhotoVideo/processPhotoVideo.py
 # Python3 processPhotoVideo.py
 
 # From the NAS - TO BE FIXED

@@ -1,4 +1,4 @@
-# Python3 ~/Documents/DEV/Python/SourceCode/PhotoVideo/processPhotoVideoSony.py
+# Python3 ~/MyDocuments/DEV/Python/SourceCode/PhotoVideo/processPhotoVideoSony.py
 # Python3 processPhotoVideoSony.py
 
 # To process folders and files (photos) from Sony camera and drone?
