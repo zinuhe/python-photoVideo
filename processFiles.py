@@ -15,13 +15,14 @@
 # Read files from a folder, same folder, same date - [DONE]
 # sort them by name - [DONE]
 # Re-sequence them - [DONE]
-# Pass by parameter a name and use it to replace 'event'
+# Pass by parameter a name and use it to replace 'event' - [DONE]
 # Make it an exe
 # https://rohitsaroj7.medium.com/how-to-turn-your-python-script-into-an-executable-file-d64edb13c2d4
 
 import os, shutil, glob
 import exifread #pip install exifread
 import os.path, time, datetime, calendar
+import sys
 from subprocess import check_output, check_call
 from icecream import ic #pip install icecream
 from pathlib import Path
@@ -69,16 +70,24 @@ def getLenSequence(file):
   return len(sequence)
 
 
-def getRawFileName(file):
+def getRawFileName(file, event):
   fileName = Path(file).stem # get file's name no extension
-  positionLastUnderscore = fileName.rfind("_") # last underscore
 
-  return fileName[0:positionLastUnderscore + 1]
+  positionFirstUnderscore = fileName.find("_")
+  positionLastUnderscore = fileName.rfind("_")
+
+  result = ""
+  if event :
+     result = fileName[0:positionFirstUnderscore + 1] + event + "_"
+  else :
+     result = fileName[0:positionLastUnderscore + 1]
+
+  return result
 
 # How is the best way
 # 1 - re-name the files and re-sequence them - [DONE]
 # 2 - read the creation date and re-name them according to it
-def reSequenceFiles(files):
+def reSequenceFiles(files, newEvent):
   # gets new sequence
   lenSequence = getLenSequence(files[0])
   # ic(lenSequence)
@@ -88,8 +97,8 @@ def reSequenceFiles(files):
     # ic(fileExtension)
 
     try:
-      newFileName = ''.join((getRawFileName(file), f'{i:0{lenSequence}}', fileExtension))
-      # ic(newFileName)
+      # ic(getRawFileName(file))
+      newFileName = ''.join((getRawFileName(file, newEvent), f'{i:0{lenSequence}}', fileExtension))
       os.rename(file, newFileName)
     except:
       print(f"Rename operation failed: {getRawFileName(file)} --> {newFileName}")
@@ -97,6 +106,12 @@ def reSequenceFiles(files):
 
 
 # PROGRAM STARTS
+
+# Reads command arguments
+newEvent = ""
+if len(sys.argv) > 1:
+    newEvent = sys.argv[1]
+
 # Gets the current working directory
 currentPath = os.getcwd() + "/"
 
@@ -107,4 +122,4 @@ videoFiles = getNameFiles(VIDEO_TYPES) #returns an array with valid video files
 sortedFiles = sortFilesByName(photoFiles)
 # ic(sortedFiles)
 
-reSequenceFiles(sortedFiles)
+reSequenceFiles(sortedFiles, newEvent)
