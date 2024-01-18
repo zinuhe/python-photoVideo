@@ -2,7 +2,7 @@
 # Python3 processFiles.py
 
 # To re-name files after being processed
-# It won't change dates, only numeration
+# It won't change dates, only numeration and/or event name
 # 2024-01-01_event_003.jpg
 # 2024-01-02_event_005.jpg
 # 2024-01-04_event_007.jpg
@@ -16,12 +16,17 @@
 # sort them by name - [DONE]
 # Re-sequence them - [DONE]
 # Pass by parameter a name and use it to replace 'event' - [DONE]
+
+# Instead of read the current len sequence, recalculate it - []
+# Rename '001' according the number of files present - []
+# 01, 02, 03, ... 99 : 99 or less files
+# 001, 002, 003, ... 999 : 99 < files < 999
+
 # Make it an exe
 # https://rohitsaroj7.medium.com/how-to-turn-your-python-script-into-an-executable-file-d64edb13c2d4
 
-import os, shutil, glob
-import exifread #pip install exifread
-import os.path, time, datetime, calendar
+import os, glob
+import os.path
 import sys
 from subprocess import check_output, check_call
 from icecream import ic #pip install icecream
@@ -30,8 +35,6 @@ from pathlib import Path
 # Photo and Video files extensions allowed
 PHOTO_TYPES = ('*.dng', '*.DNG', '*.jpe', '*.JPE', '*.jpeg', '*.JPEG', '*.jpg', '*.JPG', '*.png', '*.PNG')
 VIDEO_TYPES = ('*.mov', '*.MOV', '*.mp4', '*.MP4')
-EVENT_NAME = "event_"
-FOLDER_NAME = "FOLDER_NAME"
 
 # To manage object file
 class file:
@@ -90,7 +93,6 @@ def getRawFileName(file, event):
 def reSequenceFiles(files, newEvent):
   # gets new sequence
   lenSequence = getLenSequence(files[0])
-  # ic(lenSequence)
 
   for i, file in enumerate(files, start=1):
     fileExtension = os.path.splitext(file)[1]
