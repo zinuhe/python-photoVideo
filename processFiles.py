@@ -16,6 +16,8 @@
 # sort them by name - [DONE]
 # Re-sequence them - [DONE]
 # Pass by parameter a name and use it to replace 'event'
+# Make it an exe
+# https://rohitsaroj7.medium.com/how-to-turn-your-python-script-into-an-executable-file-d64edb13c2d4
 
 import os, shutil, glob
 import exifread #pip install exifread
