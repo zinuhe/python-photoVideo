@@ -82,10 +82,6 @@ def reSequenceFiles(files):
   # ic(lenSequence)
 
   for i, file in enumerate(files, start=1):
-    # --- SEEMS TO BE WORKING ---
-
-    # name = os.path.splitext(file)[0]
-    # ic(name)
     fileExtension = os.path.splitext(file)[1]
     # ic(fileExtension)
 
