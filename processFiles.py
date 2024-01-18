@@ -4,17 +4,18 @@
 # To re-name files after being processed
 # It won't change dates, only numeration
 # 2024-01-01_event_003.jpg
-# 2024-01-01_event_005.jpg
-# 2024-01-01_event_007.jpg
+# 2024-01-02_event_005.jpg
+# 2024-01-04_event_007.jpg
 # To
 # 2024-01-01_event_001.jpg
-# 2024-01-01_event_002.jpg
-# 2024-01-01_event_003.jpg
+# 2024-01-02_event_002.jpg
+# 2024-01-04_event_003.jpg
 
 #TODO
 # Read files from a folder, same folder, same date - [DONE]
 # sort them by name - [DONE]
 # Re-sequence them - [DONE]
+# Pass by parameter a name and use it to replace 'event'
 
 import os, shutil, glob
 import exifread #pip install exifread
