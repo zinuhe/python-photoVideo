@@ -7,20 +7,16 @@
 # 2024-01-02_event_005.jpg
 # 2024-01-04_event_007.jpg
 # To
-# 2024-01-01_event_001.jpg
-# 2024-01-02_event_002.jpg
-# 2024-01-04_event_003.jpg
+# 2024-01-01_event_01.jpg
+# 2024-01-02_event_02.jpg
+# 2024-01-04_event_03.jpg
 
 #TODO
 # Read files from a folder, same folder, same date - [DONE]
 # sort them by name - [DONE]
 # Re-sequence them - [DONE]
 # Pass by parameter a name and use it to replace 'event' - [DONE]
-
-# Instead of read the current len sequence, recalculate it - []
-# Rename '001' according the number of files present - []
-# 01, 02, 03, ... 99 : 99 or less files
-# 001, 002, 003, ... 999 : 99 < files < 999
+# Instead of read the current len sequence, recalculate it - [DONE]
 
 # Make it an exe
 # https://rohitsaroj7.medium.com/how-to-turn-your-python-script-into-an-executable-file-d64edb13c2d4
@@ -61,18 +57,15 @@ def sortFilesByName(files):
     # sortedFiles = sorted(files, key=lambda file:file.name) # sort by name
     sortedFiles = sorted(files) # sort by name
 
-    # Recalculate the sequence len base in the number of files
-
     return sortedFiles
 
 
-def getLenSequence(file):
-  firstFileName = Path(file).stem # get file's name no extension
-  lastUnderscore = firstFileName.rfind("_") # last underscore
-  sequence = firstFileName[-(len(firstFileName)-lastUnderscore-1):] # gets sequence
-  # newSequence = "".join(f'{1:0{len(sequence)}}') # gets new sequence
+def getLenSequence(lenFiles):
+  _secuence = "02"
+  if lenFiles > 9999: _secuence = "04"
+  elif lenFiles > 999: _secuence = "03"
 
-  return len(sequence)
+  return _secuence
 
 
 def getRawFileName(file, event):
@@ -93,8 +86,8 @@ def getRawFileName(file, event):
 # 1 - re-name the files and re-sequence them - [DONE]
 # 2 - read the creation date and re-name them according to it
 def reSequenceFiles(files, newEvent):
-  # gets new sequence
-  lenSequence = getLenSequence(files[0])
+  # gets new sequence length
+  lenSequence = getLenSequence(len(files))
 
   for i, file in enumerate(files, start=1):
     fileExtension = os.path.splitext(file)[1]
