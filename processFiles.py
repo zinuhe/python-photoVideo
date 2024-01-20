@@ -61,6 +61,8 @@ def sortFilesByName(files):
     # sortedFiles = sorted(files, key=lambda file:file.name) # sort by name
     sortedFiles = sorted(files) # sort by name
 
+    # Recalculate the sequence len base in the number of files
+
     return sortedFiles
 
 
