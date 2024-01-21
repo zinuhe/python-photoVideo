@@ -1,5 +1,6 @@
 # Python3 ~/MyDocuments/DEV/Python/SourceCode/PhotoVideo/processFiles.py
-# Python3 processFiles.py
+# Python3 processFiles.py   |||   no name change, sorted by name
+# Python3 processFiles.py new_name -d   |||   -d : sorted by date
 # pF (it calls an alias with the command)
 
 # To re-name files
@@ -14,10 +15,11 @@
 # It is working
 
 #TODO
+#
 # Make it an exe
 #   https://rohitsaroj7.medium.com/how-to-turn-your-python-script-into-an-executable-file-d64edb13c2d4
 
-import os, glob
+import os, glob, getopt
 import os.path
 import sys
 from subprocess import check_output, check_call
@@ -48,10 +50,12 @@ def getNameFiles(p_extensionFiles):
     return filesNames
 
 
-# Sort files by name
-def sortFilesByName(files):
-    # sortedFiles = sorted(files, key=lambda file:file.name) # sort by name
-    sortedFiles = sorted(files) # sort by name
+# Sort files by name or date
+def sortFiles(files):
+    if dateFlag:
+      sortedFiles = sorted(files, key=os.path.getmtime) # based on creation date
+    else:
+      sortedFiles = sorted(files) # sort by name
 
     return sortedFiles
 
@@ -83,27 +87,33 @@ def getRawFileName(file, event):
 def reSequenceFiles(files, newEvent):
   # gets new sequence length
   lenSequence = getLenSequence(len(files))
+  numberFilesRenamed = 0
 
   for i, file in enumerate(files, start=1):
     fileExtension = os.path.splitext(file)[1]
     # ic(fileExtension)
 
     try:
-      # ic(getRawFileName(file))
       newFileName = ''.join((getRawFileName(file, newEvent), f'{i:0{lenSequence}}', fileExtension))
       if file != newFileName:
+        numberFilesRenamed += 1
         os.rename(file, newFileName)
     except:
       print(f"Rename operation failed: {getRawFileName(file)} --> {newFileName}")
       # sys.exit()
+
+  print(f"Files renamed: {numberFilesRenamed}")
 
 
 # PROGRAM STARTS
 
 # Reads command arguments
 newEvent = ""
+dateFlag = False
 if len(sys.argv) > 1:
-    newEvent = sys.argv[1]
+  newEvent = sys.argv[1]
+  if len(sys.argv) > 2 and sys.argv[2] == "-d":
+    dateFlag = True
 
 # Gets the current working directory
 currentPath = os.getcwd() + "/"
@@ -112,7 +122,7 @@ photoFiles = getNameFiles(PHOTO_TYPES) #returns an array with valid photo files
 videoFiles = getNameFiles(VIDEO_TYPES) #returns an array with valid video files
 # ic(photoFiles)
 
-sortedFiles = sortFilesByName(photoFiles)
+sortedFiles = sortFiles(photoFiles)
 # ic(sortedFiles)
 
 reSequenceFiles(sortedFiles, newEvent)
