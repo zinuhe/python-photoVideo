@@ -12,10 +12,9 @@
 # 2024-01-01_event_01.jpg
 # 2024-01-02_event_02.jpg
 # 2024-01-04_event_03.jpg
+# IT IS WORKING
 
 #TODO
-# order by date seems to be working
-# order by name is not working properly
 # Make it an exe
 #   https://rohitsaroj7.medium.com/how-to-turn-your-python-script-into-an-executable-file-d64edb13c2d4
 
@@ -55,15 +54,18 @@ def sortFiles(files):
     if dateFlag:
       sortedFiles = sorted(files, key=os.path.getmtime) # based on creation date
     else:
-      sortedFiles = sorted(files) # sort by name
+      sortedFiles = sorted(files) # sort by name |  para que funcione los digitos tienen que ser iguales
+      # sortedFiles = sorted(files, key=os.path.basename) # sort by name
+      # sortedFiles = sorted(files, key=lambda file: file.name)
 
     return sortedFiles
 
 
 def getLenSequence(lenFiles):
   _secuence = "02"
-  if lenFiles > 9999: _secuence = "04"
-  elif lenFiles > 999: _secuence = "03"
+  if lenFiles > 9999: _secuence = "05"
+  elif lenFiles > 999: _secuence = "04"
+  elif lenFiles > 99: _secuence = "03"
 
   return _secuence
 
@@ -97,7 +99,8 @@ def reSequenceFiles(files, newEvent):
       newFileName = ''.join((getRawFileName(file, newEvent), f'{i:0{lenSequence}}', fileExtension))
       # check if a file with the new name already exists
       if os.path.exists(newFileName):
-        print(f"File already exists: {newFileName}")
+        # print(f"File already exists: {newFileName}")
+        pass
       else:
         if file != newFileName:
           numberFilesRenamed += 1
@@ -119,8 +122,6 @@ if len(sys.argv) > 1:
   if len(sys.argv) > 2 and sys.argv[2] == "-d":
     dateFlag = True
 
-# Gets the current working directory
-currentPath = os.getcwd() + "/"
 
 photoFiles = getNameFiles(PHOTO_TYPES) #returns an array with valid photo files
 videoFiles = getNameFiles(VIDEO_TYPES) #returns an array with valid video files
