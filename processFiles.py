@@ -1,5 +1,6 @@
 # Python3 ~/MyDocuments/DEV/Python/SourceCode/PhotoVideo/processFiles.py
 # Python3 processFiles.py
+# pF (it calls an alias with the command)
 
 # To re-name files
 # It won't change dates, only numeration and/or event name
