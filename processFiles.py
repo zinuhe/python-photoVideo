@@ -92,7 +92,6 @@ def reSequenceFiles(files, newEvent):
       # ic(getRawFileName(file))
       newFileName = ''.join((getRawFileName(file, newEvent), f'{i:0{lenSequence}}', fileExtension))
       if file != newFileName:
-        ic(file, newFileName)
         os.rename(file, newFileName)
     except:
       print(f"Rename operation failed: {getRawFileName(file)} --> {newFileName}")
