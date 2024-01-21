@@ -1,7 +1,7 @@
 # Python3 ~/MyDocuments/DEV/Python/SourceCode/PhotoVideo/processFiles.py
 # Python3 processFiles.py
 
-# To re-name files after being processed
+# To re-name files
 # It won't change dates, only numeration and/or event name
 # 2024-01-01_event_003.jpg
 # 2024-01-02_event_005.jpg
@@ -10,14 +10,9 @@
 # 2024-01-01_event_01.jpg
 # 2024-01-02_event_02.jpg
 # 2024-01-04_event_03.jpg
+# It is working
 
 #TODO
-# Read files from a folder, same folder, same date - [DONE]
-# sort them by name - [DONE]
-# Re-sequence them - [DONE]
-# Pass by parameter a name and use it to replace 'event' - [DONE]
-# Instead of read the current len sequence, recalculate it - [DONE]
-
 # Make it an exe
 # https://rohitsaroj7.medium.com/how-to-turn-your-python-script-into-an-executable-file-d64edb13c2d4
 
