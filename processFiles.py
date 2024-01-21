@@ -15,7 +15,7 @@
 
 #TODO
 # Make it an exe
-# https://rohitsaroj7.medium.com/how-to-turn-your-python-script-into-an-executable-file-d64edb13c2d4
+#   https://rohitsaroj7.medium.com/how-to-turn-your-python-script-into-an-executable-file-d64edb13c2d4
 
 import os, glob
 import os.path
@@ -91,7 +91,9 @@ def reSequenceFiles(files, newEvent):
     try:
       # ic(getRawFileName(file))
       newFileName = ''.join((getRawFileName(file, newEvent), f'{i:0{lenSequence}}', fileExtension))
-      os.rename(file, newFileName)
+      if file != newFileName:
+        ic(file, newFileName)
+        os.rename(file, newFileName)
     except:
       print(f"Rename operation failed: {getRawFileName(file)} --> {newFileName}")
       # sys.exit()
