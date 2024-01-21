@@ -70,14 +70,13 @@ def getLenSequence(lenFiles):
 
 def getRawFileName(file, event):
   fileName = Path(file).stem # get file's name no extension
-
-  positionFirstUnderscore = fileName.find("_")
-  positionLastUnderscore = fileName.rfind("_")
-
   result = ""
+
   if event :
+     positionFirstUnderscore = fileName.find("_")
      result = fileName[0:positionFirstUnderscore + 1] + event + "_"
   else :
+     positionLastUnderscore = fileName.rfind("_")
      result = fileName[0:positionLastUnderscore + 1]
 
   return result
