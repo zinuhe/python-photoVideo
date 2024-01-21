@@ -12,10 +12,10 @@
 # 2024-01-01_event_01.jpg
 # 2024-01-02_event_02.jpg
 # 2024-01-04_event_03.jpg
-# It is working
 
 #TODO
-#
+# order by date seems to be working
+# order by name is not working properly
 # Make it an exe
 #   https://rohitsaroj7.medium.com/how-to-turn-your-python-script-into-an-executable-file-d64edb13c2d4
 
@@ -95,9 +95,13 @@ def reSequenceFiles(files, newEvent):
 
     try:
       newFileName = ''.join((getRawFileName(file, newEvent), f'{i:0{lenSequence}}', fileExtension))
-      if file != newFileName:
-        numberFilesRenamed += 1
-        os.rename(file, newFileName)
+      # check if a file with the new name already exists
+      if os.path.exists(newFileName):
+        print(f"File already exists: {newFileName}")
+      else:
+        if file != newFileName:
+          numberFilesRenamed += 1
+          os.rename(file, newFileName)
     except:
       print(f"Rename operation failed: {getRawFileName(file)} --> {newFileName}")
       # sys.exit()
