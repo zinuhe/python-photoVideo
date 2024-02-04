@@ -1,6 +1,7 @@
 # Python3 ~/MyDocuments/DEV/Python/SourceCode/PhotoVideo/processFiles.py
-# Python3 processFiles.py   |||   no name change, sorted by name
-# Python3 processFiles.py new_name -d   |||   -d : sorted by date
+# Python3 processFiles.py  |  no name change, sorted by name
+# Python3 processFiles.py new_name -d  |  -d : sorted by date
+# Python3 processFiles.py -f  |  -f : to use the folder's name
 # pF (it calls an alias with the command)
 
 # To re-name files
@@ -17,11 +18,12 @@
 #TODO
 # With only -d option doesn't use 'event', no name is renamed
 # Make a version to set up file's creation date on the file's name
+# Make a flag to run a dry test -t
 # An option to take the folder's name and use it on file's name (DONE - More testing)
 # Make it an exe
 #   https://rohitsaroj7.medium.com/how-to-turn-your-python-script-into-an-executable-file-d64edb13c2d4
 
-import os, glob, getopt
+import os, glob
 import os.path
 import sys
 from subprocess import check_output, check_call
@@ -108,7 +110,7 @@ def reSequenceFiles(files, newEvent):
         if file != newFileName:
           numberFilesRenamed += 1
           ic(newFileName)
-          # os.rename(file, newFileName)
+          os.rename(file, newFileName)
     except:
       print(f"Rename operation failed: {getRawFileName(file)} --> {newFileName}")
       # sys.exit()
