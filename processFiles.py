@@ -36,32 +36,32 @@ VIDEO_TYPES = ('*.mov', '*.MOV', '*.mp4', '*.MP4')
 
 # To manage object file
 class file:
-    def __init__(self, name, year, monthNumber, monthName, day, fullDate, exifCreation):
-        self.name = name
-        self.year = year
-        self.monthNumber = monthNumber
-        self.monthName = monthName
-        self.day = day
-        self.fullDate = fullDate
-        self.exifCreation = exifCreation
+  def __init__(self, name, year, monthNumber, monthName, day, fullDate, exifCreation):
+    self.name = name
+    self.year = year
+    self.monthNumber = monthNumber
+    self.monthName = monthName
+    self.day = day
+    self.fullDate = fullDate
+    self.exifCreation = exifCreation
 
 # Gets file extensions and return an array of matching files
 def getNameFiles(p_extensionFiles):
-    filesNames = []
-    for ext in p_extensionFiles:
-        filesNames.extend(glob.glob(ext))
+  filesNames = []
+  for ext in p_extensionFiles:
+    filesNames.extend(glob.glob(ext))
 
-    return filesNames
+  return filesNames
 
 
 # Sort files by name or date
 def sortFiles(files):
-    if dateFlag:
-      sortedFiles = sorted(files, key=os.path.getmtime) # based on creation date
-    else:
-      sortedFiles = sorted(files) # sort by name |  para que funcione los digitos tienen que ser iguales
-      # sortedFiles = sorted(files, key=os.path.basename) # sort by name
-      # sortedFiles = sorted(files, key=lambda file: file.name)
+  if dateFlag:
+    sortedFiles = sorted(files, key=os.path.getmtime) # based on creation date
+  else:
+    sortedFiles = sorted(files) # sort by name |  para que funcione los digitos tienen que ser iguales
+    # sortedFiles = sorted(files, key=os.path.basename) # sort by name
+    # sortedFiles = sorted(files, key=lambda file: file.name)
 
     return sortedFiles
 
@@ -80,11 +80,11 @@ def getRawFileName(file, event):
   result = ""
 
   if event :
-     positionFirstUnderscore = fileName.find("_")
-     result = fileName[0:positionFirstUnderscore + 1] + event + "_"
+    positionFirstUnderscore = fileName.find("_")
+    result = fileName[0:positionFirstUnderscore + 1] + event + "_"
   else :
-     positionLastUnderscore = fileName.rfind("_")
-     result = fileName[0:positionLastUnderscore + 1]
+    positionLastUnderscore = fileName.rfind("_")
+    result = fileName[0:positionLastUnderscore + 1]
 
   return result
 
