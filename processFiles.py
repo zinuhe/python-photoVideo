@@ -107,7 +107,7 @@ def reSequenceFiles(files, newEvent):
       else:
         if file != newFileName:
           numberFilesRenamed += 1
-          os.rename(file, newFileName)
+          # os.rename(file, newFileName)
     except:
       print(f"Rename operation failed: {getRawFileName(file)} --> {newFileName}")
       # sys.exit()
@@ -120,10 +120,12 @@ def reSequenceFiles(files, newEvent):
 # Reads command arguments
 newEvent = ""
 dateFlag = False
+folderFlag = False
 if len(sys.argv) > 1:
-  newEvent = sys.argv[1]
-  if len(sys.argv) > 2 and sys.argv[2] == "-d":
-    dateFlag = True
+  for arg in range(1, len(sys.argv)):
+    if sys.argv[arg] == "-d": dateFlag = True
+    elif sys.argv[arg] == "-f": folderFlag = True
+    else: newEvent = sys.argv[arg]
 
 
 photoFiles = getNameFiles(PHOTO_TYPES) #returns an array with valid photo files
