@@ -17,7 +17,7 @@
 #TODO
 # With only -d option doesn't use 'event', no name is renamed
 # Make a version to set up file's creation date on the file's name
-# An option to take the folder's name and use it on file's name (working here)
+# An option to take the folder's name and use it on file's name (DONE - More testing)
 # Make it an exe
 #   https://rohitsaroj7.medium.com/how-to-turn-your-python-script-into-an-executable-file-d64edb13c2d4
 
@@ -107,6 +107,7 @@ def reSequenceFiles(files, newEvent):
       else:
         if file != newFileName:
           numberFilesRenamed += 1
+          ic(newFileName)
           # os.rename(file, newFileName)
     except:
       print(f"Rename operation failed: {getRawFileName(file)} --> {newFileName}")
@@ -127,12 +128,16 @@ if len(sys.argv) > 1:
     elif sys.argv[arg] == "-f": folderFlag = True
     else: newEvent = sys.argv[arg]
 
-
 photoFiles = getNameFiles(PHOTO_TYPES) #returns an array with valid photo files
 videoFiles = getNameFiles(VIDEO_TYPES) #returns an array with valid video files
 # ic(photoFiles)
 
 sortedFiles = sortFiles(photoFiles)
 # ic(sortedFiles)
+
+# Check folderFlag then get folder's name
+if folderFlag:
+  positionLastSlash = os.getcwd().rfind("/") + 1
+  newEvent = os.getcwd()[positionLastSlash:]
 
 reSequenceFiles(sortedFiles, newEvent)
