@@ -15,6 +15,8 @@
 
 # TODO
 # It is not working with '.MP4' files from DJI
+# An option for put all the files under the same folder, don't make
+# year/photo/even_ folders only one folder
 
 import os, shutil, glob, sys
 import exifread #pip install exifread
