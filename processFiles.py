@@ -17,7 +17,7 @@
 #TODO
 # With only -d option doesn't use 'event', no name is renamed
 # Make a version to set up file's creation date on the file's name
-# An option to take the name from the folder and set up file's name
+# An option to take the folder's name and use it on file's name (working here)
 # Make it an exe
 #   https://rohitsaroj7.medium.com/how-to-turn-your-python-script-into-an-executable-file-d64edb13c2d4
 
