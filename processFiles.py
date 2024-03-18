@@ -109,7 +109,7 @@ def reSequenceFiles(files, newEvent):
       else:
         if file != newFileName:
           numberFilesRenamed += 1
-          ic(newFileName)
+          # ic(newFileName)
           os.rename(file, newFileName)
     except:
       print(f"Rename operation failed: {getRawFileName(file)} --> {newFileName}")
