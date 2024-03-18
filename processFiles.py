@@ -1,4 +1,4 @@
-# Python3 ~/MyDocuments/DEV/Python/SourceCode/PhotoVideo/processFiles.py
+# Python3 ~/MyDocuments/Dev/python/python-photoVideo/processFiles.py
 # Python3 processFiles.py  |  no name change, sorted by name
 # Python3 processFiles.py new_name -d  |  -d : sorted by date
 # Python3 processFiles.py -f  |  -f : to use the folder's name

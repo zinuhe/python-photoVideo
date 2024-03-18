@@ -1,4 +1,4 @@
-# Python3 ~/MyDocuments/DEV/Python/SourceCode/PhotoVideo/processPhotoVideo.py
+# Python3 ~/MyDocuments/Dev/python/python-photoVideo/processPhotoVideo.py
 # Python3 processPhotoVideo.py
 
 # From the NAS - TO BE FIXED
@@ -16,10 +16,11 @@
 # TODO
 # It is not working with '.MP4' files from DJI
 # An option for put all the files under the same folder, don't make
-# year/photo/even_ folders only one folder
+#    year/photo/even_ folders only one folder
+# Create event's folders with the proper creation time
 
 import os, shutil, glob, sys
-import exifread #pip install exifread
+import exifread #pip3 install exifread
 import os.path, time, calendar
 from subprocess import check_output, check_call
 from datetime import datetime

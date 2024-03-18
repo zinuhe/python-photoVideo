@@ -1,4 +1,4 @@
-# Python3 ~/MyDocuments/DEV/Python/SourceCode/PhotoVideo/processFoldersDates.py
+# Python3 ~/MyDocuments/Dev/python/python-photoVideo/processFoldersDates.py
 # Python3 processFoldersDates.py
 
 # To set up folder's creation date based on inside files creation dates

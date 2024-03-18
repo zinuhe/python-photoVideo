@@ -1,7 +1,7 @@
 # To execute and DELETE
-# The original file is in 
-# /Users/jimmysaavedra/Documents/DEV/Python/SourceCode/Watchdog/changeCopy.py
-# Cambios directos en processPhotoVideoSony.py este script 
+# The original file is in
+# ~/MyDocuments/Dev/python/python-photoVideo/Watchdog/changeCopy.py
+# Cambios directos en processPhotoVideoSony.py este script
 #copia y ejecuta el script en el otro folder
 
 # Python3 changeCopy.py
@@ -40,7 +40,7 @@ def on_moved(event):
     print(f"-- {event.src_path} was moved to {event.dest_path}")
 
 
-def copyFile(source, destination, symlinks=False, ignore=None):    
+def copyFile(source, destination, symlinks=False, ignore=None):
     shutil.copy(source, destination)
 
 my_event_handler.on_modified = on_modified
