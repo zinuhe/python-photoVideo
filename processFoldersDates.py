@@ -4,18 +4,18 @@
 # To set up folder's creation date based on inside files creation dates
 
 #TODO
-#Go into a folder
-#get files inside and get creation dates
-#get the older file date
-#set up the upper folder with that date
-#Add '_month_day' at the end of folder's name?
+# Go into a folder
+# get files inside and get creation dates
+# get the older file date
+# set up the upper folder with that date
+# Add '_month_day' at the end of folder's name?
 
 import os, shutil, glob
-import exifread #pip install exifread
+import exifread # pip3 install exifread
 import os.path, time, datetime, calendar
 from subprocess import check_output, check_call
 # from datetime import datetime
-from icecream import ic #pip install icecream
+from icecream import ic # pip3 install icecream
 
 # Photo and Video files extensions allowed
 PHOTO_TYPES = ('*.dng', '*.DNG', '*.jpe', '*.JPE', '*.jpeg', '*.JPEG', '*.jpg', '*.JPG', '*.png', '*.PNG')

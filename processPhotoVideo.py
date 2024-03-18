@@ -20,7 +20,7 @@
 # Create event's folders with the proper creation time
 
 import os, shutil, glob, sys
-import exifread #pip3 install exifread
+import exifread # pip3 install exifread
 import os.path, time, calendar
 from subprocess import check_output, check_call
 from datetime import datetime

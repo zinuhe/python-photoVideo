@@ -27,7 +27,7 @@ import os, glob
 import os.path
 import sys
 from subprocess import check_output, check_call
-from icecream import ic #pip install icecream
+from icecream import ic # pip3 install icecream
 from pathlib import Path
 
 # Photo and Video files extensions allowed
