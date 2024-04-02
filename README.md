@@ -16,7 +16,20 @@ Given a list of folders, it goes inside each one gets the earlies file date and 
 
 Works with pictures and videos because it uses inside files' creation dates rather than EXIF info.
 
+Files shoud have propertly set up creation date.
+
 ## processFiles.py
+Rename files
+
+It won't change dates, only numeration and/or event name
+
+2024-01-01_event_003.jpg
+2024-01-02_event_005.jpg
+2024-01-04_event_007.jpg
+To
+2024-01-01_event_01.jpg
+2024-01-02_event_02.jpg
+2024-01-04_event_03.jpg
 
 ## To check
 
