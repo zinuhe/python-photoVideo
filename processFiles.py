@@ -2,6 +2,7 @@
 # Python3 processFiles.py  |  no name change, sorted by name
 # Python3 processFiles.py new_name -d  |  -d : sorted by date
 # Python3 processFiles.py -f  |  -f : to use the folder's name
+# Python3 processFiles.py -rbd  |  -rbd : rename by date, uses creation date to rename the file
 # pF (it calls an alias with the command)
 
 # To re-name files
@@ -17,14 +18,14 @@
 
 #TODO
 # With only -d option doesn't use 'event', no name is renamed
-# Make a version to set up file's creation date on the file's name
+# Make a version to set up file's creation date on the file's name - working here
 # Make a flag to run a dry test -t
 # An option to take the folder's name and use it on file's name (DONE - More testing)
 # Make it an exe
 #   https://rohitsaroj7.medium.com/how-to-turn-your-python-script-into-an-executable-file-d64edb13c2d4
 
 import os, glob
-import os.path
+import os.path, datetime, time
 import sys
 from subprocess import check_output, check_call
 from icecream import ic # pip3 install icecream
@@ -101,6 +102,15 @@ def reSequenceFiles(files, newEvent):
     # ic(fileExtension)
 
     try:
+      creationDate = ''
+      if rbdFlag:
+        fileCreationDate = os.stat(file).st_birthtime
+        dateTimeFileCreation = datetime.datetime.fromtimestamp(fileCreationDate)
+        ic(dateTimeFileCreation)
+        creationDate = ''.join((str(dateTimeFileCreation.year), '-', dateTimeFileCreation.strftime('%m'), '-', dateTimeFileCreation.strftime('%d')))
+        ic(creationDate)
+
+      # newFileName = ''.join((creationDate, getRawFileName(file, newEvent), f'{i:0{lenSequence}}', fileExtension))
       newFileName = ''.join((getRawFileName(file, newEvent), f'{i:0{lenSequence}}', fileExtension))
       # check if a file with the new name already exists
       if os.path.exists(newFileName):
@@ -110,7 +120,7 @@ def reSequenceFiles(files, newEvent):
         if file != newFileName:
           numberFilesRenamed += 1
           # ic(newFileName)
-          os.rename(file, newFileName)
+          # os.rename(file, newFileName)
     except:
       print(f"Rename operation failed: {getRawFileName(file)} --> {newFileName}")
       # sys.exit()
@@ -124,10 +134,12 @@ def reSequenceFiles(files, newEvent):
 newEvent = ""
 dateFlag = False
 folderFlag = False
+rbdFlag = False
 if len(sys.argv) > 1:
   for arg in range(1, len(sys.argv)):
     if sys.argv[arg] == "-d": dateFlag = True
     elif sys.argv[arg] == "-f": folderFlag = True
+    elif sys.argv[arg] == "-rbd": rbdFlag = True
     else: newEvent = sys.argv[arg]
 
 photoFiles = getNameFiles(PHOTO_TYPES) #returns an array with valid photo files
